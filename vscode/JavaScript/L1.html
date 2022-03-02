@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible'>
+    <title>JavaScript 溫度轉換</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+</head>
+
+<body>
+攝氏 *9 /5 + 32 ===> 華氏
+驗證方式: 1.-40
+          2. 攝氏100 = 華氏212
+
+          Celsius:<input type="text" id = "celsius">
+          <button onclick="celsiusToFah()">Celsius -> Fahrenheit</button>
+          <p id="result"></p>
+
+          <hr>
+
+          Fahrenheit:<input type ="text" id="fahrenheit">
+          <button onclick="fahToCelsius()">Fahrenheit -> Celsius </button>
+            <p id = "feedback"></p>
+
+          <script>
+              function celsiusToFah(){
+                  let celsius = document.getElementById('celsius').value
+                //   console.log(celsius.value);
+                let fahrenheit = celsius * 9 / 5 + 32;
+                // console.log(fahrenheit);0
+                result.innerText = fahrenheit;
+
+            }
+                function fahToCelsius(){
+                    let fahrengeit = document.getElementById('fahrenheit').value
+                    let celsius = (fahrengeit -32) / 9 *5;
+                    feedback.innerText = celsius;
+                }
+
+
+          </script>
+    
+</body>
+</html>

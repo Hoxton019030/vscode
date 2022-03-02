@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript --總秒數轉成幾分幾秒</title>
+    <script>
+        function changeToMintues(){
+            let sconds = document.getElementById('scond').value;
+            let mintues = parseInt(sconds / 60);
+            let left = second % 60;
+        }
+    </script>
+</head>
+<body>
+    <h2>--總秒數轉成幾分幾秒</h2>
+    總秒數:<input type="text" ids="second">
+    <button onclick="changeToMintues()">換算</button> 
+    <p id="result"></p>
+    
+</body>
+</html>

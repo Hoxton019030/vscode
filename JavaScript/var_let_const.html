@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h2 id="result"></h2>
+    <script>
+        window.onload = function () {
+            for (var i = 0; i < 5; i++) {
+                document.write(`${i} <br>`)
+            }
+            document.write(`${i} <bt>`)
+            document.write(`=====<br>`)
+            //////////////////////////////////
+            for (var j = 0; j < 5; j++) {
+                document.write(`${j} <br>`)
+            }
+
+            document.write(`=======<br>`)
+
+
+            //const不能被重新指派
+            const FULL_NAME = 'silvia Huang';
+            document.write(`${FULL_NAME} <br>`);
+            document.write(`=============<br>`);
+
+            const POINT = {
+
+            }
+
+        }
+
+        // let arr = [];
+        // let arr = new Array();
+
+        // let arr = [2, 4, 6, true, 'ABC', new DATE()];
+        // let arr = new Array(2, 4, 6, true, 'ABC', new DATE());
+        let obj = {
+            // 屬性:屬性質> key: 'ABC' , ;
+            name = 'Peter',
+            age = 40,
+            gender = 'male',
+            favoriateColor = ['white','black','red'],
+            car:{
+                make:'BMW',
+                mode:'X5',
+                year:'2020',
+            },
+            retired:false,
+
+            sayHello: function(){    //ES5的寫法，不要這麼寫。
+
+            }
+
+
+        };
+
+
+    </script>
+</body>
+
+</html>
