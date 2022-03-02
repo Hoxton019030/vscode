@@ -13,7 +13,7 @@
 
 
         window.onload = function () {
-            let month = 3;
+            let month = new Date().getDate()+1;
 
             switch (month) {
                 case 1:
@@ -24,7 +24,7 @@
                 case 10:
                 case 12 :
                  days = 31;
-                 document.write(`該月份有 ${days}天`);
+                 document.write(`${month}月有 ${days}天`);
                  break;
                 case 4:   
                 case 6:   
