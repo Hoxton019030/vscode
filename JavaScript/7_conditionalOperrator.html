@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    每桶油漆可以刷 200 square feet,
+    用亂數產生 150 ~1000 square feet 的整數亂數
+    計算出需要幾桶油漆
+    <script>
+        window.onload = function () {
+            let coverage = 200;  //每桶油漆可以刷 200 square feet, 
+            let squareFeet = parseInt(Math.random() * 851) + 150;
+            document.write(`squareFeet ---> ${squareFeet} <br>`);
+
+            let cans = parseInt(squareFeet / coverage);
+            cans += (squareFeet % coverage == 0) ? 0 : 1;
+            document.write(`<h2>You need ${cans} cans of paint.`)
+
+            // Q:反引號內的${} 裡面放什麼?
+            // A:放表達式！
+
+
+            //                 Smoke is clearing out, all the circling lights blind me
+            // I've been running out, now it's all just a fight to breathe
+            // I gave it all, yeah, I gave everything
+            // I will never break the silence
+            // When I look inside, I don't have to hide
+            // If you're looking, you won't find it
+            // Who's the enemy?
+            // Don't know what to believe
+            // Living in the shadows
+            // Living in the shadows
+            // Light is breaking through a dark that is underneath
+            // I know the truth but for you it's just out of reach
+            // You took it all, yeah, you took everything
+            // I will never break the silence
+            // When I look inside
+            // I don't have to hide
+            // If you're looking, you won't find me
+            // Who's the enemy?
+            // Don't know what to believe
+            // Living in the shadows
+            // Living in the shadows
+            // I will never break the silence
+            // When I look inside, I don't have to hide
+            // If you're looking, you won't find it
+            // Who's the enemy?
+            // Don't know what to believe
+            // Living in the shadows
+            // Living in the shadows
+            // Living in the shadows
+            // Living in the shadows
+            // Living in the shadows
+
+
+
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
