@@ -27,40 +27,55 @@
 
 
             //const不能被重新指派
+            // 自訂常數
             const FULL_NAME = 'silvia Huang';
             document.write(`${FULL_NAME} <br>`);
             document.write(`=============<br>`);
 
             const POINT = {
+                x: 100,
+                y: 200,
+
 
             }
+            document.write(`${POINT.x} <br>`)
+            POINT.x = 500;
+            document.write(`${POINT.x} <br>`) //若是物件裡的屬性則可變更。
+            document.write(`=============<br>`);
+
+
 
         }
+
+
 
         // let arr = [];
         // let arr = new Array();
 
         // let arr = [2, 4, 6, true, 'ABC', new DATE()];
         // let arr = new Array(2, 4, 6, true, 'ABC', new DATE());
-        let obj = {
-            // 屬性:屬性質> key: 'ABC' , ;
-            name = 'Peter',
-            age = 40,
-            gender = 'male',
-            favoriateColor = ['white','black','red'],
-            car:{
-                make:'BMW',
-                mode:'X5',
-                year:'2020',
-            },
-            retired:false,
+        // let obj = {
+        //     // 屬性:屬性質> key: 'ABC' , ;
+        //     name = 'Peter',
+        //     age = 40,
+        //     gender = 'male',
+        //     favoriateColor =['white', 'black', 'red'],
+        //     car: {
+        //         make: 'BMW',
+        //         mode: 'X5',
+        //         year: '2020',
+        //     },
+        //     retired: false,
 
-            sayHello: function(){    //ES5的寫法，不要這麼寫。
+        //     sayHello: function () {    //ES5的寫法，不要這麼寫。
 
-            }
+        //     }
+        //     sayHello() {   //ES6 推薦
+
+        //     }
 
 
-        };
+        // };
 
 
     </script>
