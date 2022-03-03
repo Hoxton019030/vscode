@@ -1,16 +1,37 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
+    <script>
+        
+        var likescounts = 0;
+    </script>
+<head><title>0 likes</title>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    
 </head>
-<body>
-    <DIV>
 
-        <img src="pinpng.com-heart-png-85098.png" width="100" alt="">
-    </DIV>
+<body>
+    
+<a href=# onclick="add()">
+    <img src="pinpng.com-heart-png-85098.png" width="100" alt="">
+</a> 
+<br><br>
+You got:
+<input type="text" id="text" disabled style="text-align: center;" >
+<script>
+    function add(){
+        likescounts+=1;
+        document.getElementById('text').value =likescounts;
+        document.title = "Your likes is :"+likescounts;
+
+}
+</script>
+123
+
     
 </body>
 </html>
