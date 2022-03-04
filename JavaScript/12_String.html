@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <span id="A1001" class="addbutton">
+        <!-- AddCart -->
+        <input type="hidden" value="TeddyBear">
+    </span>
+    <script>
+        let months = 'Jav, Feb, Mar,Apr,May,Jun,Jul,Aug';
+        let monthArray = months.split(','); //字串切割成陣列，monthArray 是陣列
+        console.log(monthArray)
+
+        let theMonths = ['Jab','Feb','Mar','Apr','May','Jun','Jul','Aug']
+        let monthString =theMonths.join(`--`) ; //陣列組成字串
+        console.log(monthString) //
+        for(let i = 0; i<monthArray.length;i++){
+            document.write(`${monthArray[i]}<br>`);
+        }
+        
+
+
+
+
+    </script>
+
+</body>
+
+</html>
