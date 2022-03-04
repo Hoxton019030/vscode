@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 內建物件 Number | Math</title>
+</head>
+<body>
+    <!-- 
+        筆記在最下面
+    -->
+    <script>
+        window.onload = function(){
+           document.title = 'Test!!!';  // 可以修改 title
+
+           // 1 + 2 + 3 + ... + 10
+           // let total = 0;
+           // for(let i = 1; i <= 10; i++){
+           //     total += i;
+           // }
+           // document.write(`Total is ${total}`);
+
+           // 1 + 2 + 3 + ... + 100
+           let total = 0;
+           for(let i = 1; i <= 100; i++){
+               total += i;
+               total = (1 + 100) * 100 / 2
+           }
+           document.write(`Total is ${total} <br>`);
+
+           // 1 + 3 + 5 + ... + 99
+           let oddSubtotal = 0;
+           for(let i = 1; i <= 99; i++){
+               oddSubtotal = (1 + 99) * 50 / 2
+           }
+           document.write(`oddSubtotal is ${oddSubtotal} <br>`);
+
+           // 2 + 4 + 6 + ... + 100
+           // let evenSubtotal = 0;
+           // for(let i = 2; i <= 100; i++){
+           //     evenSubtotal = (2 + 100) * 50 / 2
+           // }
+           // document.write(`evenSubtotal is ${evenSubtotal} <br>`);
+
+           let evenSubtotal = 0;
+           for(let i = 2; i <= 100; i += 2){
+                evenSubtotal += i
+           }
+           document.write(`evenSubtotal is ${evenSubtotal} <br>`);
+           document.write(`=============================== <br>`);
+
+           // 內建物件 Number
+           // 1. JS 只有一種數值形式
+           document.write(`${Number.MAX_VALUE} <br>`);   // 1.7976931348623157e+308
+           document.write(`${Number.MIN_VALUE} <br>`);   // 5e-324
+
+           // 2. 跟數值有關的運算子(算術運算): +, -, *, /, %, +=, -=, *=, /=, %=
+
+           // 3. 算術運算無效時，JS會傳回兩個特殊值: NaN, Infinity
+           document.write(`${ 5 / 0} <br>`);        // Infinity
+           document.write(`${-5 / 0} <br>`);        // -Infinity
+           document.write(`${ 0 / 0} <br>`);        // NaN
+           document.write(`${ 2 * 'ABC'} <br>`);    // NaN
+           
+           //4. 避免算術運算無效，要先條件判斷
+           // if(isNaN(num)){}
+           // if(isFinite(num)){}
+
+           // 5. 方法:
+            // toFixed() 格式化小數點的位數
+            let num = 5;
+            document.write(`${num.toFixed(2)} <br>`); // 5.00
+           // ===================================================
+
+           // 內建物件 Math
+           // 1. 不需要建立 Math 型態的變數(也就是不能使用 new 來給初值), 直接使用其屬性和方法即可
+           // 2. Math 的屬性: Math.PI
+           // 3. Math 的方法:
+            //  - Math.abs(x) 傳回絕對值
+            //  - Math.ceil(x) 傳回四捨五入最接近的整數值(向上)
+            //  - Math.floor(x) 傳回四捨五入最接近的整數值(向下)
+            //  - Math.max(x, y) 傳回最大值
+            //  - Math.min(x, y) 傳回最小值
+
+            //  - Math.pow(x, 幾次方) 傳回幾次方
+            //  - Math.sqrt(x) 傳回平方根
+
+            //  - Math.random() 傳回 0(含) ~ 1(不含)之間的隨機亂數 
+            //  - Math.round(x) 傳回四捨五入之後的整數值 
+
+        }
+    </script>
+</body>
+</html>
+

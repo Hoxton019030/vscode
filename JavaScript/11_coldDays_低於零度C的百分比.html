@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 計算低於零度C的百分比</title>
+</head>
+<body>
+    <!-- 
+        先產生五個介於 -5 ~ 5 之間的整數溫度，計算低於零度C的百分比
+    -->
+    <script>
+        window.onload = function(){
+            let allDays = 5;
+            let coldDays = 0;
+            const FREEZING = 0
+
+            for(let i = 0; i < allDays; i++){
+                temperature = parseInt(Math.random() * 11) - 5;
+                document.write(`${temperature}  `);
+
+                if(temperature < FREEZING){
+                    coldDays++;
+                }
+            }
+            document.write(`<br>`);
+
+            // 印出低於零度C的百分比
+            document.write(`${allDays} days total: ${coldDays / allDays * 100}% were below freezing.<br>`);
+        }
+    </script>
+</body>
+</html>
+

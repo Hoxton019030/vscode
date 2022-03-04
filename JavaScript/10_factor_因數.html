@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 內建物件 String</title>
+</head>
+<body>
+        1. 建立字串物件
+            let fullName = '';
+            let fullName = new String();
+
+            let fullName = 'Peter Atley';
+            let fullName = new String('Peter Atley');
+
+        2. 屬性: length
+           .html
+                <input type="email" id="email">
+           .js
+                let email = document.getElementById('email');
+                if(email.value.length > 0){...}
+        
+        3. 方法
+            - 拆分
+              charAt(index)
+              indexOf('字串') | lastIndexOf('字串')
+              slice(index[,index]) 從字串找出子字串
+              substr(index, count) 從字串找出子字串
+
+            - 操作
+              concat() 字串串接
+              toLowerCase()
+              toUpperCase()
+              split() 字串切割成陣列
+              replace(子字串,欲取代的字串)
+
+        4. 跳脫字元
+            - \n | \r\n  換行
+            - \t
+            - \\
+            - \'
+            - \"
+    
+    <script>
+        window.onload = function(){
+            let fullName = 'Peter Atley';
+
+            document.write(`Length: ${fullName.length} <br>`);
+            document.write(`charAt(index): ${fullName.charAt(2)} <br>`);
+            //找最後一個字元
+            document.write(`charAt(index): ${fullName.charAt(fullName.length - 1)} <br>`);
+            
+            document.write(`indexOf('字串'): ${fullName.indexOf('Atley')} <br>`);
+            document.write(`indexOf('字串'): ${fullName.indexOf('atley')} <br>`);  // -1
+            document.write(`indexOf('字串'): ${fullName.indexOf('e')} <br>`);  
+            document.write(`indexOf('字串'): ${fullName.lastIndexOf('e')} <br>`);  
+            document.write(`------------------------- <br>`);  
+
+            let language = 'JavaScript';
+            document.write(`slice(): ${language.slice(4)}<br>`);
+            document.write(`slice(): ${language.slice(0,4)}<br>`);
+            document.write(`slice(): ${language.slice(1,4)}<br>`);      //ava
+            document.write(`slice(): ${language.slice(0,-6)}<br>`);
+            document.write(`slice(): ${language.slice(-6)}<br>`);
+            document.write(`------------------------- <br>`);  
+            document.write(`substr(): ${language.substr(0,4)}<br>`);
+            document.write(`substr(): ${language.substr(1,4)}<br>`);    // avaS
+            document.write(`------------------------- <br>`);  
+
+            let address = '2215 NE 68th. st';
+            document.write(`concat(): ${address.concat(' Seattle,',' WA ',98115)}<br>`); 
+            document.write(`concat(): ${address.concat(' Seattle, WA 98115')}<br>`); 
+            document.write(`${address.concat('<br> Seattle,',' WA ',98115).concat('<br>TEL: ','(206)523-5480')}<br>`); 
+            document.write(`------------------------- <br>`);  
+
+            language = 'JavaScript';
+            document.write(`indexOf('字串'): ${language.indexOf('Script')}<br>`);
+            document.write(`indexOf('字串'): ${language.indexOf('script')}<br>`);
+            document.write(`indexOf('字串'): ${language.toLowerCase().indexOf('script')}<br>`);
+            document.write(`------------------------- <br>`);  
+
+            let months = 'Jan, Feb, Mar, Apr, May, Jun, Jul, Aug';
+            let monthArray = months.split(', ');   // 字串切割成陣列，所以 monthArray 是陣列
+            console.log(monthArray);
+            for(let i = 0; i < monthArray.length; i++){
+                document.write(`${monthArray[i]}<br>`);
+            }
+
+            let theMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+            let monthString = theMonths.join(' -- ');   // 陣列組成字串，所以 monthString 是字串
+            console.log(monthString);   // Jan -- Feb -- Mar -- Apr -- May -- Jun -- Jul -- Aug
+        
+        }
+    </script>
+</body>
+</html>
+

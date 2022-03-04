@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 找出所有的合數</title>
+</head>
+<body>
+    <!-- 
+        先產生 1 ~ 1000 的整數亂數，印出該數所有的因數
+        (※ 合數: 除了 1 和本身以外，可以被任何一個數整除的數)
+    -->
+    <script>
+        window.onload = function(){
+            let num = parseInt(Math.random() * 1000) + 1;
+
+            // 1
+            // for(let div = 2; div < num; div++){
+            //     if(num % div == 0){
+            //         document.write(`${num} is divisible by ${div}. <br>`);
+            //     }
+            // }
+
+            // 2
+            // for(let div = 2; div * div <= num; div++){
+            //     if(num % div == 0){
+            //         document.write(`${num} is divisible by ${div} and ${num / div}. <br>`);
+            //     }
+            // }
+
+            // 3
+            // for(let div = 2; div * div <= num; div++){
+            //     if(num % div == 0){
+            //         if(div * div != num){
+            //             document.write(`${num} is divisible by ${div} and ${num / div}. <br>`);
+            //         }else{
+            //             document.write(`${num} is divisible by ${div}. <br>`);
+            //         }
+
+            //     }
+            // }
+
+            // 4 判斷質數
+            let isPrime = true;  // 先假設所有的數都是質數
+
+            for(let div = 2; div * div <= num; div++){
+                if(num % div == 0){
+                    if(div * div != num){
+                        document.write(`${num} is divisible by ${div} and ${num / div}. <br>`);
+                    }else{
+                        document.write(`${num} is divisible by ${div}. <br>`);
+                    }
+
+                    isPrime = false;
+                }
+            }
+
+            if(isPrime == true){
+                document.write(`${num} is prime. <br>`);
+            }
+            
+        }
+    </script>
+</body>
+</html>
+

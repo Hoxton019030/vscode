@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 條件(三元)運算子</title>
+</head>
+<body>
+    <!-- 
+        每桶油漆可以刷 200 square feet,
+        產生 150 ~ 1000 square feet 的整數亂數,
+        計算出需要幾桶油漆? 
+        
+        useage: 切分頁(pagenation)
+    -->
+    <script>
+        window.onload = function(){
+            let coverage = 200;  // 每桶油漆可以刷 200 square feet
+            let squareFeet = parseInt(Math.random() * 851) + 150;  //產生 150 ~ 1000 square feet 的整數亂數
+
+            document.write(`squareFeet ---> ${squareFeet} <br>`);
+
+            let cans = parseInt(squareFeet / coverage);
+            // cans += 0? or cans += 1?
+            cans += (squareFeet % coverage == 0) ? 0 : 1;
+            document.write(`<h2>You need ${cans} ${cans <= 1 ? 'can' : 'cans'} of paint. </h2>`);
+        }
+
+        // Q: 反引號內的 ${} 裡面放甚麼?
+        // A: 放表達式(expression)
+
+        // 陳述式(statement)和表達式(expression)
+        // - 陳述式(statement; 敘述)
+        //     break;
+        //     if(){}else{}
+        //     while(){}
+        //     switch(){}
+        //     min = (x > y) ? x : y;
+
+        // - 表達式(expression; 條件判斷)
+        //     num
+        //     5 > 3
+        //     x < y + 6
+        //     (x > y) ? x : y
+    </script>
+</body>
+</html>
+
