@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 內建物件 Object</title>
+</head>
+<body>
+        1. 建立 Object 物件
+            let obj = {};
+            let obj = new Object{};
+
+            let obj = {};
+            obj.name = 'Peter';
+            obj.age = 40;
+            obj.gender = 'male';
+
+            [語法]: 
+            let obj = {
+                屬性: 屬性值,
+                key: value,
+            };
+
+            let obj = {
+                name: 'Peter',
+                age: 40,
+                gender: 'male',
+            };
+
+        2. 如何存取?
+            console.log(obj.name); ---> Peter
+            
+            [ex]
+            let man = {
+                name: 'Peter',
+                age: 40,
+                gender: 'male',
+                favoriateColor: ['white','black','gray'],
+                car: {
+                    make: 'BMW',
+                    mode: 'X5',
+                    year: 2020,
+                },
+                retired: false,
+                // sayHello: function(){},  // ES5
+                sayHello(){},  // ES6
+            };
+
+            [語法]: for(let key in 物件 | 陣列){}
+
+            for(let key in man){
+                console.log(key);        // 『:』左邊的 key 值
+                console.log(man[key]);   // 『:』右邊的 value 值
+            }
+
+        3. 刪除屬性
+            delete man.retired
+
+    <script>
+        window.onload = function(){
+            let man = {
+                name: 'Peter',
+                age: 40,
+                gender: 'male',
+                favoriateColor: ['white','black','gray'],
+                car: {
+                    make: 'BMW',
+                    mode: 'X5',
+                    year: 2020,
+                },
+                retired: false,
+                // sayHello: function(){},  // ES5
+                sayHello(){
+                    alert('Hello!')
+                },  // ES6
+            };
+
+            for(let key in man){
+                console.log(key);        // 『:』左邊的 key 值
+                console.log(man[key]);   // 『:』右邊的 value 值
+
+                // document.write(`${key} <br>`); 
+                document.write(`${man[key]} <br>`);  
+            }
+            document.write(`------------------------- <br>`);  
+
+            document.write(`${man.name} <br>`); 
+            // man.sayHello(); 
+            document.write(`${man.favoriateColor} <br>`);  
+            document.write(`${man.car.make} <br>`);  
+            document.write(`------------------------- <br>`);  
+            document.write(`${man.favoriateColor[0]} <br>`);  
+            document.write(`${man.favoriateColor[1]} <br>`);  
+            document.write(`${man['favoriateColor'][2]} <br>`);  // 物件的陣列表示法(bracket notation)
+            document.write(`------------------------- <br>`);  
+            document.write(`${man.car.make} <br>`);
+            document.write(`${man['car']['make']} <br>`);  // 物件的陣列表示法
+            document.write(`------------------------- <br>`);  
+
+            let items = {
+                10: 'Hat',
+                20: 'T-Shirt',
+                30: 'Shoes',
+                40: 'iPad Air',
+                50: 'Mac Pro',
+                60: 'iPhone',
+            };
+            // document.write(`${items.10} <br>`);  // 語法錯誤
+            document.write(`${items[10]} <br>`);   // 這裡一定要用「物件的陣列表示法」
+            document.write(`------------------------- <br>`);  
+
+        }
+    </script>
+</body>
+</html>
+
