@@ -1,0 +1,32 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font: 18px Calibri;
+}
+body{
+    background: #aaa;
+}
+#theForm{
+    background: #fff;
+    width: 240px;
+    padding: 10px;
+    margin: 50px;
+    border: 1px solid #bbb;
+}
+#theForm div{
+    margin: 10px 20px;
+}
+label,button{
+    text-transform: capitalize;
+}
+
+#result{
+    border: 1px solid #888;
+    width: 185px;
+    height: 45px;
+    font-size: 24px;
+    color: maroon;
+
+    text-align: center;
+    line-height: 45px;
+}
