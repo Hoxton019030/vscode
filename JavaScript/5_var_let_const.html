@@ -2,35 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>計算機</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="new.js"></script>
+    <title>JavaScript -- var | let | const</title>
 </head>
-<body>
-    <form id="theForm">
-        <fieldset>
-            <legend>Calculator</legend>
-            <div>
-                <label>Quantity:</label>
-                <input type="number" min="0" name="quantity" id="quantity">
-            </div>
-            <div>
-                <label>price per unit:</label>
-                <input type="number" step="0.1" min="0" name="price" id="price">
-            </div>
-            <div>
-                <label>tax Rate(%):</label>
-                <input type="number" step="0.01" min="0" name="tax" id="tax">
-            </div>
-            <div>
-                <label>Discount:</label>
-                <input type="number" min="0" name="discount" id="discount">
-            </div>
-            <div>
-                <button>submit</button>
-            </div>
-            <div id="result"></div>
-        </fieldset>
-    </form>
+<body>    
+    <h2 id="result"></h2>
+
+    <script>
+        window.onload = function(){
+            // var
+            for(var i = 0; i < 5; i++){
+                document.write(`${i} <br>`)
+            }
+            document.write(`${i} <br>`)
+            document.write(`=========== <br>`)
+
+            // let
+            for(let j = 0; j < 5; j++){
+                document.write(`${j} <br>`)
+            }
+            // document.write(`${j} <br>`); // j is not defined
+            document.write(`=========== <br>`)
+
+            // const: 不能被 reassigned
+            // 自訂常數
+            const FULL_NAME = 'Silvia Huang'
+            document.write(`${FULL_NAME} <br>`)
+            document.write(`=========== <br>`)
+
+            // FULL_NAME = 'Anan Huang';  //Assignment to constant variable.
+            // document.write(`${FULL_NAME} <br>`)
+
+            const POINT = {
+                x: 100,
+                y: 200,
+            }
+            document.write(`${POINT.x} <br>`)
+
+            POINT.x = 500;
+            document.write(`${POINT.x} <br>`)
+            document.write(`=========== <br>`)
+
+            // 內建常數
+            document.write(`${Number.MAX_VALUE} <br>`)
+            document.write(`${Number.MIN_VALUE} <br>`)
+        }
+
+        // 陣列
+        // let arr = [];  
+        // let arr = new Array(); 
+
+        // let arr = [2,4,6,true,'ABC',new Date()];  
+        // let arr = new Array(2,4,6,true,'ABC',new Date()); 
+
+
+        // 物件
+        // let obj = {};
+        // let obj = new Object();
+
+        // let obj = {
+        //     屬性: 屬性值,
+        //     key: value,
+        // };
+        // let man = {
+        //     name: 'Peter',
+        //     age: 40,
+        //     gender: 'male',
+        //     favoriateColor: ['white','black','gray'],
+        //     car: {
+        //         make: 'BMW',
+        //         mode: 'X5',
+        //         year: 2020,
+        //     },
+        //     retired: false,
+        //     sayHello: function(){},  // ES5
+        //     sayHello(){},  // ES6
+        // };
+    </script>
 </body>
 </html>
+
