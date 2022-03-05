@@ -1,50 +1,67 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <script>
-        var likescounts = 0;
-    </script>
-<head><title>0 likes</title>
-    <link rel="stylesheet" href="heart.css">
+ 
+
+<script>
+    var likescounts = 0;
+    var autoClick = 0;
+
+    function timer() {
+
+    }
+</script>
+
+<head>
+    <title>0 likes</title>
+    <link rel="stylesheet" type="text/css" href="./module.css"> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    
+
+
 </head>
 
 <body>
-    
-<a href=# onclick="add()" id="heart">
-    <img src="pinpng.com-heart-png-85098.png" width="100" alt="">
-</a> 
-<br><br>
-You got:
-<input type="text" id="text" disabled style="text-align: center;" >
-<script>
-    function add(){
-        likescounts+=1;
-        document.getElementById('text').value =likescounts;
-        document.title = "Your likes is :"+likescounts;
 
-}
-</script>
-likes
-<br><br>
+    <a href=# onclick="add()" id="heart">
+        <img src="pinpng.com-heart-png-85098.png" width="100" alt="">
+    </a>
+    <br><br>
+    You got:
+    <input type="text" id="text" disabled style="text-align: center;">
+    <script>
+        function add() {
+            likescounts += 1;
+            document.getElementById('text').value = likescounts;
+            document.title = "Your likes is :" + likescounts;
 
-<button><a href="#" onclick="save()">Save</a> </button>
-<button><a href="#" onclick="load()">load</a> </button>
-<script> 
-    function save(){  //為什麼這個localStorage不會存在網頁的儲存空間?
-        localStorage.setItem("likescount",likescounts);
-    }
-    function load(){
-        likescounts = localStorage.getItem("likescount");
-        likescounts =parseInt(likescounts);
-        document.getElementById('text').value =likescounts;
-    }
-</script>
+        }
+    </script>
+    likes
+    <br><br>
 
-    
+    <button><a href="#" onclick="save()">Save</a> </button>
+    <button><a href="#" onclick="load()">load</a> </button>
+    <script>
+        function save() {  //為什麼這個localStorage不會存在網頁的儲存空間?
+            localStorage.setItem("likescount", likescounts);
+        }
+        function load() {
+            likescounts = localStorage.getItem("likescount");
+            likescounts = parseInt(likescounts);
+            document.getElementById('text').value = likescounts;
+        }
+        function  clickMonkey(){
+            
+        }
+    </script>
+    <br>
+    <p><i>聘雇一隻訓練有術的猴子</i> </p>
+    <a href="#" onclick="clickMonkey()" class="monkey"><img src="./C4prJh8WAAA_Stg.jpg" alt="" width="100"></a> <b>每隻猴子每10秒會按一次讚！吱吱</b> <br>
+
+
+
 </body>
+
 </html>
