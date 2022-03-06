@@ -32,11 +32,13 @@
 
 .path {
     display: flex;
+    list-style-type: none;
 }
 
 .path li {
     position: relative;
     padding: 6px 8px;
+    list-style-type: none;
 }
 
 .path li a {
@@ -53,7 +55,6 @@
 }
 
 .about {
-    background-color: #f00;
     padding: 40px 0 60px;
 }
 
@@ -91,9 +92,7 @@
     padding: 0 0 40px;
 }
 
-.product {
-    background-color: #aaa;
-}
+.product {}
 
 .product .wrap {
     display: flex;
@@ -125,6 +124,7 @@
 
 .service .wrap {
     display: flex;
+    padding-bottom: 100px;
 }
 
 .service h2 {
