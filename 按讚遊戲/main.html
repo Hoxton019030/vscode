@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 
 <html lang="en">
- 
+
 
 <script>
-    var likescounts = 0;
-    var autoClick = 0;
+    var likescounts = 100;
+    var autoLikes = 0;
+
+
+    function update() {
+        document.getElementById('text').value = likescounts;
+        document.title = "Your likes is :" + likescounts;
+        document.getElementById("costOfMonkey").innerHTML = "目前購買一隻猴子的花費為 "+ ((autoLikes + 1) * 12) +" likes";
+    }
 
     function timer() {
-
+        likescounts = likescounts + autoLikes;
+        update();
     }
+
+    setInterval(timer, 1000) //setInterval(function,time(千秒))
 </script>
 
 <head>
     <title>0 likes</title>
-    <link rel="stylesheet" type="text/css" href="./module.css"> 
+    <link rel="stylesheet" type="text/css" href="./module.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +41,7 @@
     You got:
     <input type="text" id="text" disabled style="text-align: center;">
     <script>
+
         function add() {
             likescounts += 1;
             document.getElementById('text').value = likescounts;
@@ -43,6 +54,14 @@
 
     <button><a href="#" onclick="save()">Save</a> </button>
     <button><a href="#" onclick="load()">load</a> </button>
+    <br><br>
+    <div id="clickmonkey">
+        <button><a href="#" onclick="clickMonkey()" class="monkey"><img src="./C4prJh8WAAA_Stg.jpg" alt=""
+                    width="100"></a></button>
+        <span><i>聘雇一隻訓練有術的猴子，每隻猴子每10秒會按一次讚！吱吱<br><span id="costOfMonkey" >目前購買一隻猴子的花費為 12 likes</span></i></span>
+        
+    </div>
+
     <script>
         function save() {  //為什麼這個localStorage不會存在網頁的儲存空間?
             localStorage.setItem("likescount", likescounts);
@@ -52,13 +71,17 @@
             likescounts = parseInt(likescounts);
             document.getElementById('text').value = likescounts;
         }
-        function  clickMonkey(){
-            
+        function clickMonkey() {
+            if (likescounts > (autoLikes + 1) * 12) {
+                likescounts = likescounts - (autoLikes + 1) * 12;
+                autoLikes = autoLikes + 1;
+                update();
+            }
+
         }
     </script>
     <br>
-    <p><i>聘雇一隻訓練有術的猴子</i> </p>
-    <a href="#" onclick="clickMonkey()" class="monkey"><img src="./C4prJh8WAAA_Stg.jpg" alt="" width="100"></a> <b>每隻猴子每10秒會按一次讚！吱吱</b> <br>
+
 
 
 

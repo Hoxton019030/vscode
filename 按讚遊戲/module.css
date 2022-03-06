@@ -1,6 +1,7 @@
 .monkey:hover::before {
     left: 120px;
-    position: absolute;
+    bottom: -0px;
+    position:absolute;
     color: #fff;
     font-size: .8em;
     background: #346e7a;
@@ -8,3 +9,11 @@
     border-radius: 5px;
     content: '積沙也可以成塔，給一萬隻猴子打字機，最終也能打出一篇哈姆雷特！';
 }
+#clickmonkey{
+    position: absolute;
+    display: flex;
+}
+#costOfMonkey{
+    font-style: normal;
+}
+
