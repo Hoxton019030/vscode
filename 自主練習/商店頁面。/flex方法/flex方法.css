@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#product {
+    display: flex;
+    width: 630px;
+}
+
+.product-small-image {
+    display: flex;
+    width: 120px;
+}
+
+.product-small-img img:hover {
+    opacity: 1;
+}
+
+.product-small-img img {
+    height: 92px;
+    margin: 10px 0;
+    background-color: blue;
+    display: block;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.img-container {
+    width: 600px;
+}
+
+.img-container img {
+    display: block;
+    height: 500px;
+}
