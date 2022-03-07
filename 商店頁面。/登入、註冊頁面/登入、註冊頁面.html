@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./登入、註冊頁面.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" class="toggle-btn" onclick="login()">Log In</button>
+                <button type="button" class="toggle-btn" onclick="register()">Register</button>
+            </div>
+            <div class="social-icon">
+                <img src="https://picsum.photos/50/50/?random=10">
+                <img src="https://picsum.photos/50/50/?random=10">
+                <img src="https://picsum.photos/50/50/?random=10">
+            </div>
+            <form id="login" class="input-group">
+                <input type="text" class="input-field" placeholder="User Id" required>
+                <input type="text" class="input-field" placeholder="User Password" required>
+                <input type="checkbox" class="check-box"><span>Remember Password</span>
+                <button type="submit" class="submit-btn">Log In</button>
+            </form>
+            <form id="register" class="input-group">
+                <input type="text" class="input-field" placeholder="User Id" required>
+                <input type="email" class="input-field" placeholder="E-mail ID" required>
+                <input type="checkbox" class="input-field"><span>I agree to the terms & conditions</span>
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        var log = document.getElementById("login");
+        var reg = document.getElementById("register");
+        var btn = document.getElementById("btn");
+
+        function register() {
+            log.style.left = "-400px";
+            reg.style.left = "30px";
+            btn.style.left = "110px";
+        }
+
+        function login() {
+            log.style.left = "30px";
+            reg.style.left = "450px";
+            btn.style.left = "0";
+        }
+    </script>
+
+</body>
+
+</html>
