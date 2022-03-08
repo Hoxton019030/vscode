@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    1970/1/1 00:00:00 (UNIX Epoch) 紀元/ 時間戳記 1.建立Data物件 today = new Date(); - someday = new Date(year,month,day,hour,mintue,second,millisecond); - someday = new Date(millisecond); - someday = new Date('日期時間字串') [ex] new Date('December 25 2022') new Date('December
+    25 2022') new Date('December 25 2022') new Date('December 25 2022') 2.方法: - get 系列 - to 系列 - Set 系列
+
+    <script>
+        window.onload = doFirst() {
+            let now = new Date();
+            let massage = `Right now it is ${now.toLocaleDateString()} at ${now.getHours()}: ${now.getMinutes()} :${now.getSeconds()}`;
+            document.getElementById('now').innerText = message;
+
+        }
+        window.addEventListener('load', doFirst);
+    </script>
+
+
+
+
+</body>
+
+</html>
