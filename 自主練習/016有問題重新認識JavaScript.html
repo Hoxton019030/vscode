@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="inner">inner</div>
+    </div>
+    <!-- <div id="outer">
+        <div id="inner">inner</div>
+    </div> -->
+    為什麼一個是ID，一個是CLASS；一個顯示得出來，一個顯示不出來。
+    <script>
+        var outerDiv = document.getElementById('outer');
+        var allDivs = document.getElementsByTagName('div');
+        console.log(allDivs.length);
+        outerDiv.innerHTML = '';
+        console.log(allDivs.length);
+    </script>
+</body>
+
+</html>
