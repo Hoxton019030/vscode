@@ -1,39 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES6 -- new feature -- classes(JavaScript的物件導向:定義類別)</title>
+    <title>ES6 new feature -- classes(JS的物件導向: 定義類別)</title>
 </head>
-
 <body>
     <script>
-        //建構子constractor
-        class Person {
-            constructor(name, age, weight) {
+        class Person{
+            constructor(name, age, weight){
                 this.name = name;
                 this.age = age;
                 this.weight = weight;
             }
-            displayName() {
-                console.log(this.name)
-                return this.name;
+            displayName(){
+                console.log(this.name);
             }
-            displayAge() {
-                console.log(this.age)
+            displayAge(){
+                console.log(this.age);
             }
-            displayWeight() {
-                console.log(this.weight)
+            displayWeight(){
+                console.log(this.weight);
             }
         }
 
-        let peter = new Person('Peter', 40);
+        let peter = new Person('Peter', 40, 78.5);
         peter.displayName();
         peter.displayAge();
-        displayWeight();
+        peter.displayWeight();
+
+        let sally = new Person('Sally', 25);
+        sally.displayName();
+        sally.displayAge();
+
+
     </script>
 </body>
-
 </html>

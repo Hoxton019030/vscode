@@ -1,0 +1,31 @@
+*{
+    font: 18px Calibri;
+}
+body{
+    background: #aaa;
+}
+input[type="file"]{
+    font-size: 10px;
+}
+#theForm{
+    background: #fff;
+    width: 300px;
+    padding: 10px;
+    margin: 50px;
+    border: 1px solid #bbb;
+}
+#theForm div{
+    margin: 10px 20px;
+}
+
+
+#result{
+    /* border: 1px solid #888; */
+    font-size: 16px;
+    color: maroon;
+}
+
+fieldset p{
+    font-size: 14px;
+    color: steelblue;
+}

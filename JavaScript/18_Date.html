@@ -1,30 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JavaScript -- 內建物件 Date</title>
 </head>
-
 <body>
-    1970/1/1 00:00:00 (UNIX Epoch) 紀元/ 時間戳記 1.建立Data物件 today = new Date(); - someday = new Date(year,month,day,hour,mintue,second,millisecond); - someday = new Date(millisecond); - someday = new Date('日期時間字串') [ex] new Date('December 25 2022') new Date('December
-    25 2022') new Date('December 25 2022') new Date('December 25 2022') 2.方法: - get 系列 - to 系列 - Set 系列
+        <!-- <input type="date"> -->
+        1970/1/1 00:00:00 (UNIX Epoch) 紀元 / 時間戳記
+        1. 建立 Date 物件
+            - today = new Date();  // Tue Mar 08 2022 09:59:55 GMT+0800 (台北標準時間)
 
+            - someday = new Date(year,month,day,hour,mintue,second,millisecond);  // month 從 0 開始
+            - someday = new Date(millisecond);    // 一天有多少毫秒? 86400000
+            - someday = new Date('日期時間字串');  // https://www.w3.org/Protocols/rfc822/
+              [ex].
+                new Date('December 25 2022')
+                new Date('December 25, 2022')
+                new Date('Dec 25 2022')
+                new Date('25 Dec 2022')
+                new Date('2022/12/25')
+                new Date('12/25/2022')
+                new Date('12/25/2022 10:12:25')
+
+                new Date('25/12/2022'); // Invalid Date
+
+        2. 方法:
+            - get 系列 (取得日期時間的個別資訊)
+            - to 系列 (取得日期時間的整串資訊)
+            - set 系列 (設定或修改日期時間的個別資訊)
+
+        3. UTC 時間
+            end = new Date('Mar 8 2022 20:00:00 UTC')
+             
+            end = new Date();
+            end.getTimezoneOffset();   // -480 user 和 UTC 的時間差 (單位: 分鐘)
+
+        <h1 id="now"></h1>
     <script>
-        window.onload = doFirst() {
+        function doFirst(){
             let now = new Date();
-            let massage = `Right now it is ${now.toLocaleDateString()} at ${now.getHours()}: ${now.getMinutes()} :${now.getSeconds()}`;
+            let message = `
+                Right now it is ${now.toLocaleDateString()} at ${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}
+            `;
+
             document.getElementById('now').innerText = message;
 
         }
-        window.addEventListener('load', doFirst);
+        window.addEventListener('load',doFirst);
     </script>
-
-
-
-
 </body>
-
 </html>
+

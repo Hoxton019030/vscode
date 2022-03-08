@@ -1,57 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ES6 -- new feature -- classes(JavaScript的物件導向:定義類別)</title>
+    <title>ES6 new feature -- inheritance(JS的物件導向: 繼承)</title>
 </head>
-
 <body>
     <script>
-        //建構子constractor
-        class Person {
-            constructor(name, age, weight) {
+        class Person{
+            constructor(name, age, weight){
                 this.name = name;
                 this.age = age;
                 this.weight = weight;
             }
-            displayName() {
-                console.log(this.name)
-                return this.name;
+            displayName(){
+                console.log(this.name);
             }
-            displayAge() {
-                console.log(this.age)
+            displayAge(){
+                console.log(this.age);
             }
-            displayWeight() {
-                console.log(this.weight)
+            displayWeight(){
+                console.log(this.weight);
             }
         }
-
-        class Programmer extends Person {
-            constructor(name, age, weight, language) {
+        class Programmer extends Person{
+            constructor(name, age, weight, language){
                 super(name, age, weight);
-                this.language = language;
 
+                this.language = language;
             }
-            displaylanguage() {
+            displayLanguage(){
                 console.log(this.language);
             }
-
-
         }
+
         let peter = new Person('Peter', 40, 78.5, 'JavaScript');
         peter.displayName();
         peter.displayAge();
         peter.displayWeight();
-        // peter.displaylanguage();
+        // peter.displayLanguage();    // Uncaught TypeError: peter.displayLanguage is not a function
 
-        let Sally = new Programmer('Sally', 40, 78.5, 'JavaScript');
-        peter.displayName();
-        peter.displayAge();
-        peter.displayWeight();
+        let sally = new Programmer('Sally', 25, 50, 'VueJS');
+        sally.displayName();
+        sally.displayAge();
+        sally.displayLanguage(); 
+
+
     </script>
 </body>
-
 </html>

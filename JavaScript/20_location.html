@@ -1,19 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JavaScript -- window.location 物件</title>
 </head>
-
 <body>
-
-    location 物件 : 在頁面中移動 (控制頁面的切換)
+    location 物件: 在頁面中移動 (控制頁面的切換)
 
     <script>
+        
+        // window.location = 'http://www.google.com';
+
+        // 將頁面導向某個網頁
+        // window.location.href = 'http://www.google.com';
+        // document.referrer 可以查到上一頁的網址(來源網址)
+        // console.log(document.referrer);
+
+        // 在頁面中移動，不留下歷史紀錄
+        // window.location.replace('http://www.google.com');
+
+        // http://127.0.0.1:5500/JavaScript/20_location.html?name=Peter&pw=111&age=40
+        // http://127.0.0.1:5500/JavaScript/20_location.html#result
+
+        // location 的屬性:
+        //     - protocal ---> http
+        //     - host ---> 127.0.0.1:5500
+        //     - hostname ---> 127.0.0.1
+        //     - port ---> 5500
+        //     - pathname ---> /JavaScript/20_location.html
+        //     - search ---> ?name=Peter&pw=111&age=40
+        //     - hash ---> #result
+
+    // 1.    
+        // ex. http://127.0.0.1:5500/JavaScript/20_location.html?name=Peter&pw=111&age=40
+        location.search ---> 尋找「?」以後的資料(包含 ? )
+                        ---> '?name=Peter&pw=111&age=40'
+        location.search.slice(1) ---> 'name=Peter&pw=111&age=40'
+        location.search.slice(1).split('&') ---> ['name=Peter', 'pw=111', 'age=40']
+
+        location.search.slice(1).split('&')[0] ---> 'name=Peter'
+        location.search.slice(1).split('&')[0].split('=') ---> ['name', 'Peter']
+        location.search.slice(1).split('&')[0].split('=')[1] ---> 'Peter'
+ 
+        location.search.slice(1).split('&')[1] ---> 'pw=111'
+        location.search.slice(1).split('&')[1].split('=') ---> ['pw', '111']
+        location.search.slice(1).split('&')[1].split('=')[1] ---> '111'
+
+    // 2
+        // http://127.0.0.1:5500/JavaScript/20_location.html#Aries 
+        // http://127.0.0.1:5500/JavaScript/20_location.html#Taurus 
+        // http://127.0.0.1:5500/JavaScript/20_location.html#Gemini 
+        // http://127.0.0.1:5500/JavaScript/20_location.html#Cancer 
+        location.hash ---> 尋找「#」以後的資料(包含 # )
+                      ---> #Aries 
+        location.hash.slice(1) ---> 'Aries'
+        let content = location.hash.slice(1);
+        switch(content){
+            case 'Aries':
+
+                break;
+            case 'Taurus':
+
+                break;
+            case 'Gemini':
+
+                break;
+        }
+
+        // http://127.0.0.1:5500/JavaScript/20_location.html#1 
+        // http://127.0.0.1:5500/JavaScript/20_location.html#2 
+        // http://127.0.0.1:5500/JavaScript/20_location.html#3 
+        location.hash ---> 尋找「#」以後的資料(包含 # )
+                      ---> #1
+        location.hash.charAt(1) ---> 1
+        ex.
+        let content = location.hash.charAt(1);
+        switch(content){
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
+
+    // 3
+        // http://127.0.0.1:5500/JavaScript/20_location.html/iPhone
+        // http://127.0.0.1:5500/JavaScript/20_location.html/iPad
+        // http://127.0.0.1:5500/JavaScript/20_location.html/MacPro
+        // http://127.0.0.1:5500/JavaScript/20_location.html/Tshirt
+
+        location.href ---> 'http://127.0.0.1:5500/JavaScript/20_location.html/iPhone'
+        location.href.lastIndexOf('/') ---> 49
+        location.href.slice(49) ---> '/iPhone'
+        location.href.slice(49 + 1) ---> 'iPhone'
+
     </script>
 </body>
-
 </html>
+

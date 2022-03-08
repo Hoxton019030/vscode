@@ -1,24 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>JavaScript -- 內建物件 Array</title>
 </head>
-
 <body>
-    1. 建立陣列物件 let arr = []; let arr = new Array(); let arr = [2,4,6,'ABC',true,new Date()]; let arr = new Array(2,4,6,'ABC',true,new Date()); 2. 如何存取? console.log(arr[0]); ---> 2 for(let i = 0; i
-    < arr.length; i++){ console.log(arr[i]); } 3. 屬性: length
-        4. 方法 - indexOf() | lastIndexOf() - push(item) | pop() 新增刪除在後端 - unshift(item) | shift() 新增刪除在前端 - splice() 新增刪除在任意端 - splice(index) 刪除 - splice(index, 筆數) 刪除 - splice(index, 筆數, 新增1, 新增2, 新增...) 也可以新增 - join() 陣列組成字串 - filter() - map() - reduce()
-        <script>
-        window.onload = function(){ let friends = ['Andy','Brian','Carl','Dale','Ella']; for(let i = 0; i
-        < friends.length; i++){ document.write(`${friends[i]}<br>`); } document.write(`------------------------- <br>`); let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug']; document.write(`${months.indexOf('Apr')} <br>`); document.write(`${months.indexOf('Dec')} <br>`); document.write(`-------------------------
-            <br>`); let glueItem = months.join(' - '); document.write(`${glueItem} <br>`); document.write(`------------------------- <br>`); let numArray = [1,2,3,4,5]; numArray.push(100); numArray.push(200); document.write(`${numArray} <br>`); numArray.pop()
-            document.write(`${numArray} <br>`); document.write(`------------------------- <br>`); numArray = [1,2,3,4,5]; numArray.unshift(100); numArray.unshift(200); document.write(`${numArray} <br>`); numArray.shift(); document.write(`${numArray} <br>`);
-            document.write(`------------------------- <br>`); numArray = [1,2,3,4,5,6,7,8,9,10]; numArray.splice(2) document.write(`${numArray} <br>`); document.write(`------------------------- <br>`); numArray = [1,2,3,4,5,6,7,8,9,10]; numArray.splice(5,1)
-            document.write(`${numArray} <br>`); document.write(`------------------------- <br>`); numArray = [1,2,3,4,5,6,7,8,9,10]; numArray.splice(5,0,100,200,300) document.write(`${numArray} <br>`); document.write(`------------------------- <br>`);
-            }
-            </script>
-</body>
+        1. 建立陣列物件
+            let arr = [];
+            let arr = new Array();
 
+            let arr = [2,4,6,'ABC',true,new Date()];
+            let arr = new Array(2,4,6,'ABC',true,new Date());
+
+        2. 如何存取?
+            console.log(arr[0]); ---> 2
+            for(let i = 0; i < arr.length; i++){
+                console.log(arr[i]);
+            }
+
+        3. 屬性: length
+        
+        4. 方法
+            - indexOf() | lastIndexOf()
+            - push(item) | pop()  新增刪除在後端
+            - unshift(item) | shift()  新增刪除在前端
+            - splice()  新增刪除在任意端
+                - splice(index) 刪除
+                - splice(index, 筆數) 刪除
+                - splice(index, 筆數, 新增1, 新增2, 新增...) 也可以新增
+
+            - join()  陣列組成字串
+
+
+    <script>
+        window.onload = function(){
+            let friends = ['Andy','Brian','Carl','Dale','Ella'];
+            for(let i = 0; i < friends.length; i++){
+                document.write(`${friends[i]}<br>`);
+            }
+            document.write(`------------------------- <br>`);  
+
+            let months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+            document.write(`${months.indexOf('Apr')} <br>`);  
+            document.write(`${months.indexOf('Dec')} <br>`);  
+            document.write(`------------------------- <br>`);  
+
+            let glueItem = months.join(' - ');
+            document.write(`${glueItem} <br>`); 
+            document.write(`------------------------- <br>`);  
+
+            let numArray = [1,2,3,4,5];
+            numArray.push(100);
+            numArray.push(200);
+            document.write(`${numArray} <br>`);
+            numArray.pop() 
+            document.write(`${numArray} <br>`); 
+            document.write(`------------------------- <br>`); 
+
+            numArray = [1,2,3,4,5];
+            numArray.unshift(100);
+            numArray.unshift(200);
+            document.write(`${numArray} <br>`);
+            numArray.shift();
+            document.write(`${numArray} <br>`);
+            document.write(`------------------------- <br>`); 
+
+            numArray = [1,2,3,4,5,6,7,8,9,10];
+            numArray.splice(2)
+            document.write(`${numArray} <br>`);
+            document.write(`------------------------- <br>`); 
+
+            numArray = [1,2,3,4,5,6,7,8,9,10];
+            numArray.splice(5,1)
+            document.write(`${numArray} <br>`);
+            document.write(`------------------------- <br>`); 
+
+            numArray = [1,2,3,4,5,6,7,8,9,10];
+            numArray.splice(5,0,100,200,300)
+            document.write(`${numArray} <br>`);
+            document.write(`------------------------- <br>`); 
+           
+        }
+    </script>
+</body>
 </html>
+
