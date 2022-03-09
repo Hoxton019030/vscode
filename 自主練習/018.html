@@ -11,11 +11,18 @@
 <body>
 
     <script>
-        const plus = function(numA, numB) {
-            return numA + numB;
+        const plus = (...args) => {
+            let num = 0;
+            for (var i = 0; i < args.length; i++) {
+                num += args[i];
+            }
+            return num;
         };
 
-        plus.call(null, 1, 2);
+        console.log(plus(1, 2, 3, 4, 5, 6));
+
+        const plus1 = (...args) => args.reduce((a, b) => a + b);
+        console.log(plus1(1, 2, 3, 4, 5, 6));
     </script>
 </body>
 
