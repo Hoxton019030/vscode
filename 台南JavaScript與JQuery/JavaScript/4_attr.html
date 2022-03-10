@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>jQuery</title>
     <style>
-        textarea{
+        textarea {
             resize: none;
         }
     </style>
     <script src="./js/jquery.js"></script>
     <script>
         // $(選取物件).處理方式();
-        $(document).ready(function(){
+        $(document).ready(function() {
             // $('input[type="text"]').focus(function(){
             //     $(this).css('background','yellow')
             // })
@@ -20,38 +21,38 @@
             // step 2:  $(':text').focus(function(){}).blur(function(){})
             // step 3:  $(':text').focus(function(){
 
-                        // }).blur(function(){
+            // }).blur(function(){
 
-                         // })
+            // })
 
-            $(':text').focus(function(){
-                $(this).css('background','yellow')
-            }).blur(function(){
-                $(this).css('background','transparent')
+            $(':text').focus(function() {
+                $(this).css('background', 'yellow')
+            }).blur(function() {
+                $(this).css('background', 'transparent')
             })
 
-            $('input[type="email"]').focus(function(){
-                $(this).attr('placeholder','').css('background','yellow')
-            }).blur(function(){
-                $(this).css('background','transparent')
+            $('input[type="email"]').focus(function() {
+                $(this).attr('placeholder', '').css('background', 'yellow')
+            }).blur(function() {
+                $(this).css('background', 'transparent')
 
-                if($(this).val() == ''){
-                    $(this).attr('placeholder','example@icloud.com')
+                if ($(this).val() == '') {
+                    $(this).attr('placeholder', 'example@icloud.com')
                 }
             })
 
-            $(':submit').click(function(){
+            $(':submit').click(function() {
                 // $(this).attr('value','Please wait...')
                 $(this).val('Please wait...')
             })
 
-            $('textarea').focus(function(){
-                $(this).css('background','yellow').attr({
+            $('textarea').focus(function() {
+                $(this).css('background', 'yellow').attr({
                     rows: 5,
                     cols: 30,
                 })
-            }).blur(function(){
-                $(this).css('background','transparent').attr({
+            }).blur(function() {
+                $(this).css('background', 'transparent').attr({
                     rows: 2,
                     cols: 20,
                 })
@@ -59,9 +60,9 @@
         });
     </script>
 </head>
+
 <body>
-    name: <input type="text"> <br>
-    email: <input type="email" placeholder="your email..."> <br>
+    name: <input type="text"> <br> email: <input type="email" placeholder="your email..."> <br>
     <input type="submit">
     <input type="submit" value="Click me">
     <hr>
@@ -69,4 +70,5 @@
         <textarea></textarea>
     </p>
 </body>
+
 </html>

@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>JavaScript -- 總秒數轉成幾分幾秒</title>
+
     <script>
+        let convert = document.getElementById('btn-convert');
+        convert.addEventListener('click', changeToMintues)
+            //這段不執行，不知道如何處理
         function changeToMintues() {
             let seconds = document.getElementById('second').value;
             let mintues = parseInt(seconds / 60)
@@ -13,13 +17,15 @@
             result.innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
         }
     </script>
+
 </head>
 
 <body>
     <h2>總秒數轉成幾分幾秒</h2>
     總秒數: <input type="text" id="second">
-    <button onclick="changeToMintues()"> 換算 </button>
+    <button id="btn-convert"> 換算 </button>
     <p id="result"></p>
+
 </body>
 
 </html>

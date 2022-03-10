@@ -7,17 +7,31 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/jquery.js"></script>
     <script>
-        $(function () {
-            $('#search').keyup(function(){
+        $(function() {
+            $('#search').keyup(function() {
                 let name = $(this).val()
 
                 $('ul>li>span').removeClass('highlight')
 
-                if($(this).val() != ''){
+                if ($(this).val() != '') {
                     $(`ul>li>span:contains(${name})`).addClass('highlight')
                 }
             })
         });
+
+        $(function() {
+            $('#search').keyup(function() {
+                let name = $(this).val()
+
+                $('ul>li>span').removeClass('highlight')
+
+                if ($(this).val() != '') {
+                    $(`ul>li>span:contains(${name})`).addClass('highlight')
+
+                }
+            })
+
+        })
     </script>
 </head>
 

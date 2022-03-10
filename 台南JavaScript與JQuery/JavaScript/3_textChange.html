@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>jQuery</title>
     <script src="./js/jquery.js"></script>
     <script>
         // $(選取物件).處理方式();
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('#box p').html(`<h2>Hello</h2>`)
 
-            let theText = $('p:not(#box p)').text()
+            let theText = $('p:not(#box p)').text() //p:not(#box p) 先看 not(#box p) 在看 
             console.log(theText);
         });
+
+        $(document).ready(
+            function() {
+                $('#box p').html(`<h2>big dick</h2>`)
+                let theText = $
+
+            }
+        )
     </script>
 </head>
+
 <body>
     <div id="box">
         <p>Lorem, ipsum.</p>
         <p>Lorem, ipsum.</p>
         <p>Lorem, ipsum.</p>
     </div>
-    <p>Lorem ipsum dolor sit amet.</p>
-    <p>Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum dolor sit amet1.</p>
+    <p>Lorem ipsum dolor sit amet2.</p>
 </body>
+
 </html>
