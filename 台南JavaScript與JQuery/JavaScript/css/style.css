@@ -1,0 +1,35 @@
+/* 7_removeClass.html + 11_bind_on.html */
+.highlight{
+    background: yellow;
+}
+
+/* 12_textHover.html */
+.textHover{
+    cursor: pointer;
+}
+#theDiv{
+    border: 1px solid #ccc;
+    color: rgba(0,0,0,0.6);
+    padding: 5px;
+    background: #eee;
+
+    position: absolute;
+    display: none;
+}
+
+/* 13_topMessage.html */
+#topMessage{
+    width: 60%;
+    background: rgba(0,0,0,0.8);
+    color: #ddd;
+    padding: 15px 0px;
+    font: 18px Tahoma;
+    text-align: center;
+    margin: 0px auto;
+
+    display: none;
+}
+#topMessage:hover{
+    background: #F18805;
+    cursor: pointer;
+}

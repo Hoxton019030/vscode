@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <script src="./js/jquery.js"></script>
+    <script>
+        $(document).ready(function(){
+            let textMax = 100;
+            $('#feedback').html(`<span style="color: red;">${textMax}</span> characters remaining.`)
+        
+            $('textarea').keyup(function(){
+                let textLength = $(this).val().length;
+                $('#feedback').html(`<span style="color: red;">${textMax-textLength}</span> characters remaining.`)
+        
+                $('#theComment').text($(this).val()).css({
+                    whiteSpace: 'pre',
+                    font: '13.3333px monospace',
+                })
+            })
+        
+        });
+    </script>
+</head>
+<body>
+    <textarea rows="5" cols="25" maxlength="100"></textarea>
+    <p id="feedback"></p>
+    <hr>
+    <p id="theComment"></p>
+</body>
+</html>
+
+<!-- 
+    What did you
+     use
+
+  your computer for?
+ -->

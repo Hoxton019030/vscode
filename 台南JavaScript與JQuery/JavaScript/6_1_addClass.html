@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <style>
+        .theLabel{
+            text-transform: capitalize;
+            width: 120px;
+            float: left;
+        }
+    </style>
+    <script src="./js/jquery.js"></script>
+    <script>
+        // $(選取物件).處理方式();
+        $(document).ready(function(){
+            $('label').addClass('theLabel')        
+        });
+    </script>
+</head>
+<body>
+    <p>
+        <label>name: </label>
+        <input type="text">
+    </p>
+    <p>
+        <label>the comments: </label>
+        <textarea></textarea>
+    </p>
+</body>
+</html>

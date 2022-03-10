@@ -1,5 +1,7 @@
 免費 + 付費圖庫
 https://www.freepik.com/
+https://loremflickr.com/
+https://fakeimg.pl/
 
 color picker
 kuler
@@ -22,6 +24,11 @@ https://developer.mozilla.org/zh-TW
 
 金魚都能懂系列
 https://www.youtube.com/c/CSScoke
+
+jQuery easing
+https://easings.net/
+
+
 
 專題可能用到的
 
