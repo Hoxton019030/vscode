@@ -1,5 +1,45 @@
-*{
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
+* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+#slideBoard {
+    border: 5px dashed #ccc;
+    margin: 100px auto;
+    width: 300px;
+}
+
+#sliderBoard ul {
+    position: relative;
+    width: 1500px;
+}
+
+#sliderBoard li {
+    width: 300px;
+    height: 400px;
+    font: bold 200px Tahoma;
+    text-align: center;
+    line-height: 400px;
+    float: left;
+}
+
+#sliderBoard li:nth-child(1) {
+    background-color: #f00;
+}
+
+#sliderBoard li:nth-child(2) {
+    background-color: #0f0;
+}
+
+#sliderBoard li:nth-child(3) {
+    background-color: #00f;
+}
+
+#sliderBoard li:nth-child(4) {
+    background-color: #ff0;
+}
+
+#sliderBoard li:nth-child(5) {
+    background-color: #f0f;
 }

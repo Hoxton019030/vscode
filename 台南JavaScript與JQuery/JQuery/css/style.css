@@ -1,52 +1,35 @@
 /* 7_removeClass.html + 11_bind_on.html */
-
-.highlight {
+.highlight{
     background: yellow;
 }
 
-
 /* 12_textHover.html */
-
-.textHover {
+.textHover{
     cursor: pointer;
 }
-
-#theDiv {
+#theDiv{
     border: 1px solid #ccc;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0,0,0,0.6);
     padding: 5px;
     background: #eee;
+
     position: absolute;
     display: none;
 }
 
-
 /* 13_topMessage.html */
-
-#topMessage {
+#topMessage{
     width: 60%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0,0,0,0.8);
     color: #ddd;
     padding: 15px 0px;
     font: 18px Tahoma;
     text-align: center;
     margin: 0px auto;
+
     display: none;
 }
-
-#topMessage:hover {
+#topMessage:hover{
     background: #F18805;
     cursor: pointer;
-}
-
-.myPhoto {
-    width: 100px;
-}
-
-#imgBoard {
-    width: 100px;
-    background: #ccc;
-    padding: 20px 30px;
-    position: absolute;
-    left: -130px;
 }

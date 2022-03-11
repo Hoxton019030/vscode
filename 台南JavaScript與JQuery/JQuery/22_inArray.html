@@ -5,9 +5,29 @@
 	<title>jQuery</title>
 	<link rel="stylesheet" href="./css/style.css">
 	<script src="./js/jquery.js"></script>
+	<style>
+		span{
+			color: red;
+			text-transform:  capitalize;
+		}
+	</style>
 	<script>
 		$(function () {			
-	
+			let breads = ['donuts','rolls','pretzel','bagel','croissant']
+
+			$('#checkButton').click(function(){
+				let bread = $('#bread').val()
+				bread = bread.toLowerCase()
+
+				// $.inArray(物件, 物件陣列)  // 傳回值是 index 值或 -1
+				// alert($.inArray(bread, breads))
+
+				if($.inArray(bread, breads) != -1){
+					$('#feedback').html(`<span>${bread}</span> is in the bread array.`)
+				}else{
+					$('#feedback').html(`<span>${bread}</span> is NOT in the bread array.`)
+				}
+			})
 		});			
 	</script>
 </head>

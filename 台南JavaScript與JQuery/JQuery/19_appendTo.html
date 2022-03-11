@@ -9,7 +9,9 @@
     <script>
         $(function() {
             $('#submitButton').click(function() {
-                $('span').clone().appendTo('#feedback')
+                // $(父).append(子)
+                // $(子).appendTo(父)
+                $('span').appendTo('#feedback')
             })
         });
     </script>

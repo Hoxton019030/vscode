@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery</title>
+	<link rel="stylesheet" href="./css/style.css">
+    <style>
+        .big{
+            font-size: 120%;
+            color: steelblue;
+        }
+    </style>
+	<script src="./js/jquery.js"></script>
+	<script>
+		$(function () {			
+            // $('p').find('b').addClass('big');
+            $(document).find('b').addClass('big');
+		});			
+	</script>
+</head>
+
+<body>
+	<p>
+        This is a <b>paragraph</b>, some thing are <b>bold</b> and some are <b>not</b>.
+    </p>
+    <b>Outside of paragraph</b>
+</body>
+
+</html>

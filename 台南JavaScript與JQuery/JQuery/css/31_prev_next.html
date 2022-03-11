@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery</title>
+	<link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* 4 */
+        .menu{
+            list-style: none;
+            padding-inline-start: 20px;
+        }
+        .bold{
+            font-weight: 900;
+        }
+    </style>
+	<script src="./js/jquery.js"></script>
+	<script>
+		$(function () {	
+            // 1		
+            // $('.name li:first').append(` (First)`)
+            // $('.name li:last').append(` (Last)`)
+
+            // 2
+            // $('.name').find('li').first().append(` (First)`)
+            // $('.name').find('li').first().next().append(` (Second)`)  //after first
+            // $('.name').find('li').last().append(` (Last)`)
+
+            // 3
+            // for(let i = 0; i < 5; i++){
+            //     // $(`.name li:eq(index)`).()
+            //     // $(`.name li:eq(${i})`).append(' Hello')
+
+            //     $(`.name li:nth-child(${i+1})`).append(' hi')
+            // }
+
+            // 4
+            // $('.menu').find('li').first().addClass('bold')
+            // $('.menu').find('li').first().addClass('bold').nextAll().hide()
+            $('.menu').find('li').first().addClass('bold').click(function(){
+                // $(this).nextAll().show()
+                $(this).nextAll().toggle()
+            }).nextAll().hide()
+		});			
+	</script>
+</head>
+
+<body>
+    <!-- 1, 2, 3 -->
+	<!-- <ul class="name">
+        <li>Alex</li>
+        <li>Billy</li>
+        <li>Carl</li>
+        <li>Dale</li>
+    </ul> -->
+
+    <!-- 4 -->
+    <ul class="menu">
+        <li><a href="#">User</a></li>
+        <li>Settings</li>
+        <li>Log out</li>
+        <li>Delete account</li>
+        <li>Something else</li>
+    </ul>
+</body>
+
+</html>

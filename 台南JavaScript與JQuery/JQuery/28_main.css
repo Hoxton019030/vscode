@@ -1,5 +1,18 @@
-*{
-	margin: 0px;
-	padding: 0px;
-	list-style: none;
+* {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+#contentButton li {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ccc;
+    display: inline-block;
+    margin: 5px;
+}
+
+#contentButton li.clicked {
+    background: #666;
 }
