@@ -4,18 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <title>JavaScript -- 總秒數轉成幾分幾秒</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
 
     <script>
-        let convert = document.getElementById('btn-convert');
-        convert.addEventListener('click', changeToMintues)
-            //這段不執行，不知道如何處理
-        function changeToMintues() {
-            let seconds = document.getElementById('second').value;
-            let mintues = parseInt(seconds / 60)
-            let left = seconds % 60
+        // jQuery
+        $(document).ready(function() {
+            $('#btn-convert').click(function() {
+                let seconds = $('#second').val()
+                let mintues = parseInt(seconds / 60)
+                let left = seconds % 60
 
-            result.innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
-        }
+                $('#result').text(`${seconds} seconds is ${mintues} mintues, ${left} seconds`)
+            })
+        });
+
+
+
+        // JavaScript
+        // function doFirst() {
+        //     let convert = document.getElementById('btn-convert');
+        //     convert.addEventListener('click', changeToMintues)
+        // }
+
+        // function changeToMintues() {
+        //     let seconds = document.getElementById('second').value;
+        //     let mintues = parseInt(seconds / 60)
+        //     let left = seconds % 60
+
+        //     result.innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
+        // }
+        // window.addEventListener('load', doFirst);
+
+
+
+
+        // let convert = document.getElementById('btn-convert');
+        // convert.addEventListener('click', changeToMintues)
+
+        //這段不執行，不知道如何處理
+        // function changeToMintues() {
+        //     let seconds = document.getElementById('second').value;
+        //     let mintues = parseInt(seconds / 60)
+        //     let left = seconds % 60
+
+        //     result.innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
+        // }
     </script>
 
 </head>

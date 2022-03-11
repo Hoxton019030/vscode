@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript -- 總秒數轉成幾分幾秒</title>
+    <script>
+        // function changeToMintues() {
+        //     let seconds = document.getElementById('second').value;
+        //     let mintues = parseInt(seconds / 60)
+        //     let left = seconds % 60
+
+        //     result.innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
+        // }
+        function doFirst() {
+            document.getElementById('calButton').onclick = calculate;
+
+
+        }
+
+        function calculate() {
+            let seconds = document.getElementById('calButton').value;
+            document.getElementById('result').innerText = `${seconds} seconds is ${mintues} mintues, ${left} seconds`
+        }
+        window.addEventListener('load', doFirst)
+    </script>
+</head>
+
+<body>
+    <h2>總秒數轉成幾分幾秒</h2>
+    總秒數: <input type="text" id="second">
+    <button id="calButton"> 換算 </button>
+    <p id="result"></p>
+</body>
+
+</html>
