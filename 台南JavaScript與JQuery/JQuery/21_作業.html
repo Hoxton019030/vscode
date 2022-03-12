@@ -6,36 +6,45 @@
     <title>jQuery</title>
     <script src="./js/jquery.js"></script>
     <style>
-        .container div {}
+        table {
+            border-collapse: collapse;
+        }
         
         table tr td {
+            width: 120px;
+            font-size: 19px;
+            text-align: left;
             border: 1px solid black;
+        }
+        
+        p button {
+            width: 150px;
         }
     </style>
 
     <script>
         $(function() {
-            $('.condiments').click(function() {
-                let item = $(this).text()
-                $('#Condiment').attr('border', 1).append(`<span>${item} </span>`)
-            })
-        });
-        $(function() {
             $('.deli').click(function() {
                 let item = $(this).text()
-                $('#Deli').append(`<span>${item} </span>`)
-            })
-        });
-        $(function() {
-            $('.Coffee_Tea').click(function() {
-                let item = $(this).text()
-                $('#Coffee_Tea').append(`<span>${item} </span>`)
+                $('#Deli').append(`<td>${item} </td>`)
             })
         });
         $(function() {
             $('.Bread').click(function() {
                 let item = $(this).text()
-                $('#Bread').append(`<span>${item} </span>`)
+                $('#Bread').append(`<td>${item} </td>`)
+            })
+        });
+        $(function() {
+            $('.condiments').click(function() {
+                let item = $(this).text()
+                $('#Condiment').append(`<td>${item} </td>`)
+            })
+        });
+        $(function() {
+            $('.Coffee_Tea').click(function() {
+                let item = $(this).text()
+                $('#Coffee_Tea').append(`<td>${item} </td>`)
             })
         });
     </script>
@@ -43,63 +52,61 @@
 </head>
 
 <body>
-    <h3>Condiments(調味料類)</h3>
-    <p>
-        <button class="food condiments">mustard</button>
-        <button class="food condiments">salt</button>
-        <button class="food condiments">pepper</button>
-        <button class="food condiments">spices</button>
-        <button class="food condiments">soy sauce</button>
-        <button class="food condiments">ketchup</button>
-    </p>
     <h3>Deli(熟食類)</h3>
     <p>
-        <button class="food deli">roast beef</button>
-        <button class="food deli">turkey</button>
+        <button class="food deli">Roast beef</button>
+        <button class="food deli">Turkey</button>
         <button class="food deli">Swiss cheese</button>
-        <button class="food deli">potato salad</button>
-        <button class="food deli">potato Diane</button>
-    </p>
-    <h3>Coffee and Tea(咖啡茶飲類)</h3>
-    <p>
-        <button class="food Coffee_Tea">coffee</button>
-        <button class="food Coffee_Tea">herbal tea</button>
-        <button class="food Coffee_Tea">hot chocolate</button>
-        <button class="food Coffee_Tea">latte</button>
-        <button class="food Coffee_Tea">cafe au lait </button>
-        <button class="food Coffee_Tea">Con Panna</button>
+        <button class="food deli">Potato salad</button>
+        <button class="food deli">Potato Diane</button>
     </p>
     <h3>Bread(麵包類)</h3>
     <p>
-        <button class="food Bread">white bread</button>
-        <button class="food Bread">wheat bread</button>
-        <button class="food Bread">whole grain bread</button>
-        <button class="food Bread">rye bread</button>
-        <button class="food Bread">pretzel</button>
-        <button class="food Bread">pita bread</button>
+        <button class="food Bread">White bread</button>
+        <button class="food Bread">Wheat bread</button>
+        <button class="food Bread">Whole grain bread</button>
+        <button class="food Bread">Rye bread</button>
+        <button class="food Bread">Pretzel</button>
+        <button class="food Bread">Pita bread</button>
+    </p>
+    <h3>Condiments(調味料類)</h3>
+    <p>
+        <button class="food condiments">Mustard</button>
+        <button class="food condiments">Salt</button>
+        <button class="food condiments">Pepper</button>
+        <button class="food condiments">Spices</button>
+        <button class="food condiments">Soy sauce</button>
+        <button class="food condiments">Ketchup</button>
+    </p>
+    <h3>Coffee and Tea(咖啡茶飲類)</h3>
+    <p>
+        <button class="food Coffee_Tea">Coffee</button>
+        <button class="food Coffee_Tea">Herbal tea</button>
+        <button class="food Coffee_Tea">Hot chocolate</button>
+        <button class="food Coffee_Tea">Latte</button>
+        <button class="food Coffee_Tea">Cafe au lait </button>
+        <button class="food Coffee_Tea">Con Panna</button>
     </p>
     <hr>
     <h2>Your choices : </h2>
 
     <div>
+        <!--tabel 用來建立表格,
+            tr 定義有幾個水平列,
+            td 定義有幾個垂直行-->
         <table>
-            <tr>
-                <th>Coffee_Tea</th>
-                <td id="Coffee_Tea"></td>
-                <td>123</td>
-                <td>456</td>
+            <tr id="Deli">
+                <td>Deli :</td>
+
             </tr>
-            <tr>
-                <th>Deli</th>
-                <td id="Deli"></td>
+            <tr id="Bread">
+                <td>Bread :</td>
             </tr>
-            <tr>
-                <th>Condiment</th>
-                <td id="Condiment"></td>
+            <tr id="Condiment">
+                <td>Condiment :</td>
             </tr>
-            <tr>
-                <th>Bread</th>
-                <td id="Bread"></td>
+            <tr id="Coffee_Tea">
+                <td>Coffee_Tea :</td>
             </tr>
 
         </table>
