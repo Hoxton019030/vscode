@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <script src="./js/jquery.js"></script>
+    <style>
+        .container div {}
+        
+        table tr td {
+            border: 1px solid black;
+        }
+    </style>
+
+    <script>
+        $(function() {
+            $('.condiments').click(function() {
+                let item = $(this).text()
+                $('#Condiment').attr('border', 1).append(`<span>${item} </span>`)
+            })
+        });
+        $(function() {
+            $('.deli').click(function() {
+                let item = $(this).text()
+                $('#Deli').append(`<span>${item} </span>`)
+            })
+        });
+        $(function() {
+            $('.Coffee_Tea').click(function() {
+                let item = $(this).text()
+                $('#Coffee_Tea').append(`<span>${item} </span>`)
+            })
+        });
+        $(function() {
+            $('.Bread').click(function() {
+                let item = $(this).text()
+                $('#Bread').append(`<span>${item} </span>`)
+            })
+        });
+    </script>
+
+</head>
+
+<body>
+    <h3>Condiments(調味料類)</h3>
+    <p>
+        <button class="food condiments">mustard</button>
+        <button class="food condiments">salt</button>
+        <button class="food condiments">pepper</button>
+        <button class="food condiments">spices</button>
+        <button class="food condiments">soy sauce</button>
+        <button class="food condiments">ketchup</button>
+    </p>
+    <h3>Deli(熟食類)</h3>
+    <p>
+        <button class="food deli">roast beef</button>
+        <button class="food deli">turkey</button>
+        <button class="food deli">Swiss cheese</button>
+        <button class="food deli">potato salad</button>
+        <button class="food deli">potato Diane</button>
+    </p>
+    <h3>Coffee and Tea(咖啡茶飲類)</h3>
+    <p>
+        <button class="food Coffee_Tea">coffee</button>
+        <button class="food Coffee_Tea">herbal tea</button>
+        <button class="food Coffee_Tea">hot chocolate</button>
+        <button class="food Coffee_Tea">latte</button>
+        <button class="food Coffee_Tea">cafe au lait </button>
+        <button class="food Coffee_Tea">Con Panna</button>
+    </p>
+    <h3>Bread(麵包類)</h3>
+    <p>
+        <button class="food Bread">white bread</button>
+        <button class="food Bread">wheat bread</button>
+        <button class="food Bread">whole grain bread</button>
+        <button class="food Bread">rye bread</button>
+        <button class="food Bread">pretzel</button>
+        <button class="food Bread">pita bread</button>
+    </p>
+    <hr>
+    <h2>Your choices : </h2>
+
+    <div>
+        <table>
+            <tr>
+                <th>Coffee_Tea</th>
+                <td id="Coffee_Tea"></td>
+                <td>123</td>
+                <td>456</td>
+            </tr>
+            <tr>
+                <th>Deli</th>
+                <td id="Deli"></td>
+            </tr>
+            <tr>
+                <th>Condiment</th>
+                <td id="Condiment"></td>
+            </tr>
+            <tr>
+                <th>Bread</th>
+                <td id="Bread"></td>
+            </tr>
+
+        </table>
+    </div>
+
+</body>
+
+</html>
