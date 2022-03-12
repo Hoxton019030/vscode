@@ -4,42 +4,70 @@
     list-style: none;
 }
 
-#slideBoard {
-    border: 5px dashed #ccc;
-    margin: 100px auto;
+#sliderBoard {
+    /* div -- 確保 slider 的寬度 (框出寬度,)*/
+    border: 10px dashed #aaa;
+    margin: 100px;
     width: 300px;
 }
 
 #sliderBoard ul {
+    /* ul -- 讓自己與外層做定位屬性 (行為 animation)*/
     position: relative;
     width: 1500px;
+    animation: slider 5s 99;
+    /* 五秒內執行三次 */
 }
 
 #sliderBoard li {
+    /* li -- 要能容納 1500 (只需要排排站)*/
     width: 300px;
     height: 400px;
     font: bold 200px Tahoma;
     text-align: center;
     line-height: 400px;
+    /* text-align 包含文字與圖片等內容 */
+    /* display: inline-block;   
+    -- 中間會有空格; float 不會
+    float 浮動元件
+    */
     float: left;
 }
 
 #sliderBoard li:nth-child(1) {
-    background-color: #f00;
+    background: red;
 }
 
 #sliderBoard li:nth-child(2) {
-    background-color: #0f0;
+    background: orange;
 }
 
 #sliderBoard li:nth-child(3) {
-    background-color: #00f;
+    background: yellow;
 }
 
 #sliderBoard li:nth-child(4) {
-    background-color: #ff0;
+    background: green;
 }
 
 #sliderBoard li:nth-child(5) {
-    background-color: #f0f;
+    background: blue;
+}
+
+@keyframes slider {
+    0% {
+        left: 0px;
+    }
+    20% {
+        left: -100%;
+    }
+    50% {
+        left: -200%;
+    }
+    70% {
+        left: -300%;
+    }
+    90% {
+        left: -400%;
+    }
 }
