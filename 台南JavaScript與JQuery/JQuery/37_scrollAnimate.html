@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        
+        .area {
+            height: 600px;
+            display: none;
+        }
+        
+        .area p {
+            font: 200px bold Calibri;
+            text-align: center;
+            line-height: 600px;
+        }
+        
+        .area:nth-child(1) {
+            background: red;
+        }
+        
+        .area:nth-child(2) {
+            background: orange;
+        }
+        
+        .area:nth-child(3) {
+            background: yellow;
+        }
+        
+        .area:nth-child(4) {
+            background: green;
+        }
+        
+        .area:nth-child(5) {
+            background: blue;
+        }
+    </style>
+    <script>
+        $(選取物件)[0].JavaScript的屬性或方法
+        $(選取物件).get(0).JavaScript的屬性或方法
+
+        $(function() {
+            let showHeight = 200;
+            $('.area').css({
+                display: 'block',
+                opacity: 0,
+            });
+
+            $(window).scroll(function() {
+                $('.area').each(function() {
+                    // console.log($(this))
+                    // console.log($(this).offset().top)
+                    // console.log($(this).offset().left)
+                    let setThis = $(this);
+                    let area_top = setThis.offset().top;
+
+                    if ($(window).scrollTop() >= (area_top + showHeight) - $(window).height) {
+                        $(this).stop().animate({
+                            opacity: 1,
+                        }, 500)
+                    } else {
+                        $(this).stop().animate({
+                            opacity: 0,
+                        }, 500)
+                    }
+                })
+            });
+
+            offset().left | offset().top
+            width() | height()
+            innerWidth() | innerHeight()
+            outerWidth() | outerHeight()
+            outerWidth(true) | outerHeight(true)
+        })
+    </script>
+</head>
+
+<body>
+    <div class="area">
+        <p>1</p>
+    </div>
+    <div class="area">
+        <p>2</p>
+    </div>
+    <div class="area">
+        <p>3</p>
+    </div>
+    <div class="area">
+        <p>4</p>
+    </div>
+    <div class="area">
+        <p>5</p>
+    </div>
+</body>
+
+</html>

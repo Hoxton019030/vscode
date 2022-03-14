@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="./js/jquery.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        $(function() {
+            $('textarea').scroll(function() {
+                let position = $(this).scrollTop();
+                $('#response').text(`Your position is ${position}`);
+            });
+        })
+    </script>
+</head>
+
+<body>
+
+    <textarea name="" id="" cols="30" rows="10">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos at sit, reiciendis nemo modi delectus saepe id ipsum a quam nam quos quaerat, excepturi quas vel nisi facere corrupti reprehenderit.
+Quod delectus perspiciatis at sed ullam nemo, dolor corporis dicta. Nemo distinctio sit atque non debitis quae ullam quo incidunt, totam alias accusamus consequatur ipsum vero eveniet. Sed, esse dolorem!
+Odio suscipit tempora in voluptates minima doloremque eligendi repellendus quas laborum placeat esse tenetur culpa, dicta magnam voluptatem. Aliquid cumque vel veritatis labore sint recusandae deserunt facere exercitationem adipisci perspiciatis.
+Voluptatibus dolor voluptates ullam eum consectetur amet, quaerat aliquid suscipit laborum inventore voluptas dicta nobis ducimus sunt nisi quisquam accusantium voluptatem at tempore tenetur totam saepe. Quae non quisquam animi.
+Nisi itaque veritatis eum saepe corporis blanditiis quo reiciendis id laboriosam unde molestias consequuntur, optio, ipsum, excepturi corrupti. Exercitationem, iste. Dignissimos harum laborum numquam minima earum rerum velit reprehenderit et!
+Iusto voluptates perferendis aliquam reiciendis, quis minima quasi natus veniam nulla, adipisci ducimus dolor reprehenderit obcaecati odio magni quibusdam distinctio non libero numquam quas nam. Delectus, perspiciatis? Corporis, quod ipsam.
+Accusamus quia quasi culpa architecto alias, vero ex blanditiis rerum asperiores voluptatibus delectus atque ab velit veniam deleniti aperiam error quam cupiditate nam quae fugiat? Sunt eum quo delectus quidem.
+Eius est rerum explicabo veniam enim praesentium libero deleniti pariatur cum corporis doloremque tempora dolor velit autem modi odio dolorum a dicta, ab, perspiciatis esse ut qui. Illo, architecto? Dicta.
+Quaerat suscipit dolores, illo fugiat error labore voluptatum voluptatem commodi a necessitatibus? Quisquam provident, ratione error ea ab, ullam laboriosam, praesentium iste eligendi sunt voluptate saepe officia iusto veniam recusandae!
+Distinctio quam enim atque, nobis perspiciatis sed nesciunt natus! Sed aliquam dolor, voluptatem, necessitatibus dolore quae in animi ea perferendis natus id. Nisi, unde cupiditate autem similique repellendus ipsa dolorem.</textarea>
+
+    <p id="response"></p>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery.js"></script>
+    <style>
+        body {
+            background-image: url("https://picsum.photos/1300/200/?random=10");
+        }
+        
+        #skin {
+            height: 1500px;
+        }
+        
+        p {
+            width: 100%;
+            position: fixed;
+            top: 120px;
+            text-align: center;
+        }
+        
+        .scrollBottom {
+            color: #f00;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // $(選取物件)[0].JavaScript的屬性或方法
+        // $(選取物件).get(0).JavaScript的屬性或方法
+
+        $(function() {
+            $(window).scroll(function() {
+                let scroll_top = $(window).scrollTop();
+                $(`p>span`).text(scroll_top)
+
+                let positionBottom = $(document).height() - $(window).innerHeight();
+
+                // console.log(($document).height()); //1516
+                console.log($(window).innerHeight());
+                if (scroll_top == positionBottom) {
+                    $('p').addClass('scrollBottom')
+                } else {
+                    $('p').removeClass('scrollBottom');
+                }
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div id="skin">
+        <p>scrollTop: <span>0</span></p>
+    </div>
+</body>
+
+</html>

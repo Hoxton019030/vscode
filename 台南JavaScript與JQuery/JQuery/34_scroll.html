@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery.js"></script>
+    <style>
+        textarea {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <script>
+        $(function() {
+            $('textarea').scroll(function() {
+                let scroll_top = $(this).scrollTop();
+                $('#feedback').text(`You have scrolled, and are at position ${scroll_top}.`);
+            });
+        })
+    </script>
+</head>
+
+<body>
+    <!-- lorem100 -->
+    <textarea cols="30" rows="10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente sunt ad magni recusandae vitae labore modi eius, enim eaque. Perferendis, exercitationem quae quam accusantium dolores aperiam, nobis odit qui vel corporis nesciunt a soluta fugit officiis fugiat repellat reprehenderit ipsam accusamus. Cum dolorum explicabo earum iure pariatur quam quidem provident odit laborum ut assumenda neque eos, tenetur porro est amet quasi! Quia non eum perspiciatis, minima eveniet porro, fugiat eos nulla aperiam vitae nesciunt quos saepe temporibus beatae. Odio, fugit ad id harum dignissimos velit totam. Aliquam aliquid aperiam sunt possimus! Et impedit, necessitatibus error eaque fuga odio maiores expedita?</textarea>
+    <p id="feedback"></p>
+</body>
+
+</html>
