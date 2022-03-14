@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            cursor: pointer;
+            font-size: 100px;
+            animation: fade 1s ease forwards;
+        }
+        
+        @keyframes fade {
+            from {
+                opacity: 1;
+                pointer-events: all;
+            }
+            to {
+                opacity: 0;
+                pointer-events: none;
+                /* 使用pointer-event:none讓其無法成為點擊物件 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button>click</button>
+
+</body>
+
+</html>

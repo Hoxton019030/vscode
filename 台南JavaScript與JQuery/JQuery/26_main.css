@@ -1,73 +1,42 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
+*{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
 }
+#sliderBoard{  /* div */
+	border: 10px dashed #aaa;
+	margin: 100px auto;
+	width: 300px;
 
-#sliderBoard {
-    /* div -- 確保 slider 的寬度 (框出寬度,)*/
-    border: 10px dashed #aaa;
-    margin: 100px;
-    width: 300px;
+	overflow: hidden;
 }
+#sliderBoard ul{  /* ul */
+	position: relative;
+	width: 1500px;
 
-#sliderBoard ul {
-    /* ul -- 讓自己與外層做定位屬性 (行為 animation)*/
-    position: relative;
-    width: 1500px;
-    animation: slider 5s 99;
-    /* 五秒內執行三次 */
+	animation: slider 5s 3;
 }
+#sliderBoard li{  /* li */
+	width: 300px;
+	height: 400px;
 
-#sliderBoard li {
-    /* li -- 要能容納 1500 (只需要排排站)*/
-    width: 300px;
-    height: 400px;
-    font: bold 200px Tahoma;
-    text-align: center;
-    line-height: 400px;
-    /* text-align 包含文字與圖片等內容 */
-    /* display: inline-block;   
-    -- 中間會有空格; float 不會
-    float 浮動元件
-    */
-    float: left;
-}
+	font: bold 200px Tahoma;
+	text-align: center;
+	line-height: 400px;
 
-#sliderBoard li:nth-child(1) {
-    background: red;
+	/* display: inline-block; */
+	float: left;
 }
-
-#sliderBoard li:nth-child(2) {
-    background: orange;
-}
-
-#sliderBoard li:nth-child(3) {
-    background: yellow;
-}
-
-#sliderBoard li:nth-child(4) {
-    background: green;
-}
-
-#sliderBoard li:nth-child(5) {
-    background: blue;
-}
+#sliderBoard li:nth-child(1){background: red;}
+#sliderBoard li:nth-child(2){background: orange;}
+#sliderBoard li:nth-child(3){background: yellow;}
+#sliderBoard li:nth-child(4){background: green;}
+#sliderBoard li:nth-child(5){background: blue;}
 
 @keyframes slider {
-    0% {
-        left: 0px;
-    }
-    20% {
-        left: -100%;
-    }
-    50% {
-        left: -200%;
-    }
-    70% {
-        left: -300%;
-    }
-    90% {
-        left: -400%;
-    }
+	 0%{left:     0px;}
+	20%{left:  -300px;}
+	50%{left:  -600px;}
+	70%{left:  -900px;}
+	90%{left: -1200px;}
 }

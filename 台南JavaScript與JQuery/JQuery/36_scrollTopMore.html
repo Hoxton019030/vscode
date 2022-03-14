@@ -8,7 +8,7 @@
     <script src="./js/jquery.js"></script>
     <style>
         body {
-            background-image: url("https://picsum.photos/1300/200/?random=10");
+            background: url(../images/bg100.png);
         }
         
         #skin {
@@ -23,27 +23,31 @@
         }
         
         .scrollBottom {
-            color: #f00;
+            color: red;
             font-weight: bold;
         }
     </style>
     <script>
-        // $(選取物件)[0].JavaScript的屬性或方法
-        // $(選取物件).get(0).JavaScript的屬性或方法
-
         $(function() {
             $(window).scroll(function() {
-                let scroll_top = $(window).scrollTop();
-                $(`p>span`).text(scroll_top)
+                console.log($(window).scrollTop())
+                console.log($(window).height())
 
-                let positionBottom = $(document).height() - $(window).innerHeight();
+                let scroll_top = $(window).scrollTop()
+                    //srollTop()已經往下滾了多少距離。
+                let posBottom = $(document).height() - $(window).height()
+                    //$(document).height()是body標籤所包含的範圍(通常是指能往下滑多長的距離，是個變量)
+                    //$(window).height()是視窗的長度(近似於螢幕長度，是個定值)
+                $('p>span:nth-child(1)').text($(window).height())
 
-                // console.log(($document).height()); //1516
-                console.log($(window).innerHeight());
-                if (scroll_top == positionBottom) {
+
+                // console.log($(document).height());  // 1516
+                // console.log($(window).height());    // 969
+
+                if (scroll_top == posBottom) {
                     $('p').addClass('scrollBottom')
                 } else {
-                    $('p').removeClass('scrollBottom');
+                    $('p').removeClass('scrollBottom')
                 }
             })
         })

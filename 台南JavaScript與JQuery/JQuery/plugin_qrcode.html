@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript plugin -- textillate</title>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery-qrcode-0.18.0.js"></script>
+    <script>
+        $(function(){
+            $('button').click(function(){
+                let theURL = $(':text').val()
+
+                $('#feedback').text('')
+                $('#feedback').qrcode({
+                    text: theURL,
+                    size: 200,
+                    // radius: 0.5,
+
+                    // mode: 1,
+                    // label: theURL,
+                })
+            })
+        });
+    </script>
+</head>
+<body>
+    <p>
+        網址: <input type="text" id="url">
+        <button>產生 QRcode</button>
+    </p>
+    <div id="feedback"></div>
+</body>
+</html>

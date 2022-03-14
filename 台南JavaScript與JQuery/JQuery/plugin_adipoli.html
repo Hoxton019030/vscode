@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery plugin -- Adipoli</title>
+    <link rel="stylesheet" href="./css/adipoli.css">
+    <!-- <script src="./js/jquery.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    <script src="./js/jquery.adipoli.js"></script>
+    <script>
+        $(function(){
+            $('img').adipoli({
+                'startEffect'   : 'overlay',
+                'hoverEffect'   : 'foldLeft',
+                'slices'        : 20,
+            })
+        });
+    </script>
+</head>
+<body>
+    <img src="../images/washDrawing/032.JPG">
+</body>
+</html>

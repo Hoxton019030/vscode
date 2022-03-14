@@ -7,12 +7,33 @@
 	<script src="./js/jquery.js"></script>
 	<script>
 		$(function () {			
-	
+			let divWidth = $('#inCenter').width()
+			let divHeight = $('#inCenter').height()
+			
+			moveCenter()
+			$(window).resize(function(){
+				moveCenter()
+			})
+			
+			function moveCenter(){
+				let winWidth = $(window).width()
+				let winHeight = $(window).height()
+				
+				$('#inCenter').css({
+					left: (winWidth - divWidth) / 2,
+					top: (winHeight - divHeight) / 2,
+				})
+			}
 		});			
 	</script>
 </head>
 <body>
 	<div id="inCenter"></div>
+	<!-- <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatum repudiandae, expedita officia similique consequatur magni accusantium incidunt perferendis recusandae voluptates fuga dolore quod obcaecati esse corporis. Dignissimos sapiente ducimus optio quibusdam repellat, pariatur doloremque similique consectetur deleniti repellendus quis reiciendis! Eum maxime ducimus placeat voluptates aliquam eaque ab, exercitationem magnam iusto ad libero nobis quo recusandae excepturi nulla accusamus dolorum, reiciendis quae minima atque, provident culpa tempora. Doloremque quos et dicta suscipit nemo cum architecto possimus illum neque commodi. Dicta veritatis aliquam architecto corporis quam ratione voluptatum? Quibusdam modi doloremque quis quo id distinctio! Qui perferendis corrupti in omnis neque?</p>
+	<p>Ratione et iusto totam commodi aperiam sunt neque non delectus velit illo sapiente inventore libero placeat numquam quis voluptates quam, quibusdam molestias repellat reiciendis in facilis. Dolor praesentium laboriosam magnam deleniti et dolorem, perferendis totam earum dignissimos officiis suscipit! Repudiandae maxime ea tenetur consectetur nulla quam sint sit quo asperiores nemo commodi sequi, minima qui nisi? Consectetur dolorum, animi maxime quos deleniti impedit error veniam, voluptas laboriosam ducimus repellendus voluptatem dolorem aperiam quae quidem non cumque quisquam iusto. Laborum tempore sed aperiam sunt. Ab libero rem enim at, inventore laborum dolore sit deleniti, quidem quod incidunt illum quia molestiae magnam.</p>
+	<p>Et exercitationem optio, aut inventore cum delectus quo sint incidunt nobis laboriosam distinctio, cumque, ipsum ducimus dignissimos! Rem ipsum ipsa nihil aliquid molestias! Quasi nemo illo aliquam excepturi dolor eos laudantium cupiditate, commodi rem impedit ullam doloribus sed, nesciunt quos itaque dignissimos earum fuga, fugiat similique quis suscipit? Incidunt sint quibusdam aut sit voluptates repellat sed iure sequi ut exercitationem voluptas harum qui cupiditate fuga aliquam cum debitis nobis rem, esse vel distinctio natus neque eligendi inventore. Modi ea, in iste quisquam facere non dignissimos porro maiores blanditiis consequuntur magni iusto dolorum, corporis sequi ut recusandae obcaecati sunt, quas numquam!</p>
+	<p>Ad quisquam et necessitatibus quibusdam nemo odit veniam rem sint error fugiat? Reprehenderit quis ipsa, nostrum dolorum soluta architecto perspiciatis impedit in doloremque illum, laudantium debitis, eos dicta aperiam delectus. Obcaecati velit officiis veniam, temporibus tenetur natus incidunt doloremque consequuntur error dolorum, repellendus, odio dolore provident? Explicabo nostrum ex aliquam, deserunt a illum illo, adipisci officia unde cum nobis. Quisquam iste modi tenetur ea, qui sit doloribus sed libero. Similique sunt exercitationem rem nemo sed mollitia libero odio deserunt. Placeat nam modi voluptatem temporibus ducimus voluptatibus. Error similique pariatur, sapiente, magnam dolorum odit facilis itaque tempore magni, eveniet eius nisi?</p>
+	<p>Quos, delectus? Suscipit rerum quas id possimus alias numquam laboriosam ex quos, magni perferendis facilis cum doloribus neque a ab molestias, nesciunt ipsam quis. Ipsa eius odio perferendis dolore labore. Quia alias esse iusto quam, perspiciatis nemo, inventore itaque molestias consectetur repellendus quibusdam, placeat laboriosam! Magni neque voluptatibus corporis esse minima repellendus provident praesentium doloremque sint. Vel cum, laboriosam doloribus iure modi blanditiis minus eos similique ut esse ullam culpa et. Sit in illo quos modi, id, itaque soluta quaerat ab repudiandae cupiditate minima fugit quas nesciunt animi dignissimos corrupti iusto. Accusantium eveniet odio debitis sapiente ducimus provident hic cumque.</p> -->
 </body>
 
 </html>

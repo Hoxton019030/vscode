@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>25 slider simple 輪播</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(function() {
+
+        });
+    </script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+        
+        #sliderBoard {
+            border: 10px dashed #aaa;
+            margin: 100px;
+            width: 300px;
+        }
+        
+        #sliderBoard ul {
+            position: relative;
+            width: 1500px;
+            animation: slider 5s 99;
+        }
+        
+        #sliderBoard li {
+            width: 300px;
+            height: 400px;
+            font: bold 200px Tahoma;
+            text-align: center;
+            line-height: 400px;
+            float: left;
+        }
+        
+        @keyframes slider {
+            0% {
+                left: 0px;
+            }
+            20% {
+                left: -100%;
+            }
+            50% {
+                left: -200%;
+            }
+            70% {
+                left: -300%;
+            }
+            90% {
+                left: -400%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sliderBoard">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+        <div style="clear: both;"></div>
+</body>
+
+</html>

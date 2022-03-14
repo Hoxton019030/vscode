@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery.js"></script>
+    <style>
+        textarea {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+
+    <script>
+        $(function() {
+            $('#agree').attr('disabled', true)
+            $('textarea').scroll(function() {
+                let textareaTotalHeight = $(this)[0].scrollHeight;
+                let textareaDisplayHeight = $(this).innerHeight();
+                let textareaDistanceBetweenTop = $(this).scrollTop();
+                console.log(textareaDisplayHeight - textareaDisplayHeight)
+
+                if (textareaDistanceBetweenTop > textareaTotalHeight - textareaDisplayHeight) {
+                    $('#agree').attr('disabled', false);
+                }
+
+            })
+
+
+        })
+    </script>
+</head>
+
+<body>
+    <textarea name="" id="" cols="30" rows="10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt odit cupiditate amet. Nihil, aliquam? Error dolorem rerum commodi mollitia architecto deleniti reprehenderit veritatis, dignissimos, laudantium corrupti necessitatibus quod sint libero!
+    Illo, esse? Architecto ut nesciunt modi dicta nisi cumque, est assumenda itaque explicabo eveniet mollitia, recusandae blanditiis pariatur quidem esse perferendis minima. At qui est necessitatibus obcaecati fugiat eaque minima.
+    Eius ut reiciendis praesentium distinctio eum voluptas officiis laboriosam esse accusantium, illum tenetur nam qui quae recusandae adipisci numquam doloremque sit blanditiis quod excepturi temporibus sapiente eveniet, labore nemo! Magni!
+    Sequi quia beatae ipsam nulla facere eveniet quos vitae sapiente at fugiat excepturi, aspernatur consequuntur dolore quisquam explicabo. Cumque veritatis tenetur modi laborum quibusdam obcaecati dicta architecto nobis eos nihil.
+    Id excepturi vel blanditiis, nemo ipsum et saepe animi tempora rerum. Rerum, ratione dolorem aliquam culpa dolores placeat eos suscipit. Nam, numquam in velit harum sequi accusamus repellendus ea est.
+    Eligendi accusantium, sequi optio quidem dolore est, fugit repudiandae minus ea quos minima odio numquam, nulla commodi facilis deleniti aut aliquid amet tempora temporibus laboriosam nesciunt ipsa blanditiis? Iure, quos!
+    Dicta assumenda voluptatem nostrum officia aut quisquam numquam nam possimus autem qui pariatur magnam deleniti nisi excepturi similique, odio dolorem ipsa dolorum delectus consectetur quaerat hic quae error! Natus, eius.
+    Officia, accusamus dicta, voluptas mollitia ipsum voluptates assumenda id excepturi optio reprehenderit nobis? Iure quas quasi eius omnis ducimus ipsum temporibus necessitatibus expedita error distinctio. Adipisci sunt quis cupiditate iure.
+    Voluptatem vero repellendus aperiam esse blanditiis, dolores culpa quo rerum, non delectus voluptates veritatis recusandae eaque modi repudiandae aliquam, impedit similique. Ab eius obcaecati, unde rem quaerat ratione suscipit ex.
+    Adipisci aliquid, soluta deserunt impedit molestiae molestias praesentium illo quibusdam repellendus minima aperiam provident excepturi dolorem incidunt, vero cumque debitis, blanditiis magni at accusantium laborum cum? Corrupti modi odio assumenda.</textarea><br>
+    <input id="agree" type="checkbox">我同意
+
+
+</body>
+
+</html>

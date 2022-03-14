@@ -2,39 +2,43 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>jQuery</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery.js"></script>
-    <script src="./js/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            $('#imgBoard').hover(function() {
-                $(this).stop(true).animate({
-                    left: '0px',
-                    // backgroundColor: 'red',
-                }, 1000, 'easeInQuart')
-            }, function() {
-                $(this).animate({
-                    left: '-130px',
-                }, 2000, 'easeOutBounce')
-            })
-        });
-    </script>
+	<meta charset="UTF-8">
+	<title>jQuery</title>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery.js"></script>
+	<script src="./js/jquery-ui.js"></script>
+	<script>
+		$(function () {			
+			// $('#imgBoard').mouseover().mouseout()
+
+			// $('#imgBoard').hover()
+			// $('#imgBoard').hover(function(){},function(){})
+			$('#imgBoard').hover(function(){
+				$(this).stop(true).animate({
+					left: '0px',
+					// backgroundColor: 'red',
+				}, 1000, 'easeInQuart')
+			},function(){
+				$(this).animate({
+					left: '-130px',
+				}, 2000, 'easeOutBounce')
+			})
+		});			
+	</script>
 </head>
 
 <body>
-    <h2>Mouseover the gray stripe on the left edge.</h2>
-    <div id="imgBoard">
-        <img src="../images/washDrawing/011.JPG" class="myPhoto">
-        <img src="../images/washDrawing/001.JPG" class="myPhoto">
-        <img src="../images/washDrawing/007.JPG" class="myPhoto">
-        <img src="../images/washDrawing/021.JPG" class="myPhoto">
-        <img src="../images/washDrawing/008.JPG" class="myPhoto">
-        <img src="../images/washDrawing/037.JPG" class="myPhoto">
-        <img src="../images/washDrawing/013.JPG" class="myPhoto">
-        <img src="../images/washDrawing/010.JPG" class="myPhoto">
-    </div>
+	<h2>Mouseover the gray stripe on the left edge.</h2>
+	<div id="imgBoard">
+		<img src="../images/washDrawing/011.JPG" class="myPhoto">
+		<img src="../images/washDrawing/001.JPG" class="myPhoto">
+		<img src="../images/washDrawing/007.JPG" class="myPhoto">
+		<img src="../images/washDrawing/021.JPG" class="myPhoto">
+		<img src="../images/washDrawing/008.JPG" class="myPhoto">
+		<img src="../images/washDrawing/037.JPG" class="myPhoto">
+		<img src="../images/washDrawing/013.JPG" class="myPhoto">
+		<img src="../images/washDrawing/010.JPG" class="myPhoto">
+	</div>
 </body>
 
 </html>

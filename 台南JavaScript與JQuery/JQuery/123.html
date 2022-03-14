@@ -1,0 +1,1200 @@
+<script type="text/ng-template" id="kurser-aksjer.html">
+    <div class="bright-section shares-container" ng-class="{active: sharesMenu}" ng-init="isTheSharesPage = true;" style="min-height:400px" ng-style="{'padding-bottom': userSignedIn === false ? '0px' : ''}">
+        <div class="container">
+            <div class="col-md-8">
+                <h2 style="margin-bottom:10px">Shares</h2>
+                <div class="sub-title"> Filter shares by selecting an industry below. </div>
+                <div style="margin-top:10px">
+                    <div class="section-box">
+                        <hr>
+                        <div class="filter-list">
+                            <a ng-repeat="s in sectors" ng-click="sectorSelected(s)" class="sector-block text-center">
+                                <div class="sector-block-container" ng-class="s.selected ? 'selected' : 'deselected'">
+                                    <div class="sector-name">{{ s.name }}</div>
+                                    <div style="position:relative">
+                                        <div class="sector-icon-box"> <svg style="width:40px;height:40px"><g transform="translate(5, 0)scale(.7)"><use xlink:href="{{s.tmgIcon}}" /></g></svg> </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="industrySectors"> Drill down further: <span style="display:inline-block;margin-right:5px" ng-repeat="s in industrySectors"> <a ng-click="selectIndustrySector(s)" ng-style="{'text-decoration': s === selectedIndustrySector ? 'underline' : ''}"> {{ s.name + ($last ? '' : ', ')}} </a> </span>                    </div>
+            </div>
+            <div class="col-md-4">
+                <h2 style="margin-bottom:10px">Markets/Indices</h2>
+                <div class="sub-title"> Filter shares by selecting a market/index below. </div>
+                <div class="section-box">
+                    <hr>
+                    <div class="filter-list">
+                        <a ng-repeat="s in stockLists" ng-click="stockListChanged(s)" class="sector-block indices-block text-center">
+                            <div class="sector-block-container" ng-class="s.name === selectedList ? 'selected' : 'deselected'">
+                                <div class="sector-name">{{ s.name }}</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" ng-show="!loaded">
+            <div class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading shares...</span> </div>
+        </div>
+        <div ng-show="loaded" class="loaded-container">
+            <div>
+                <div class="bright-section shares-list-container" style="min-height:800px;padding-bottom:150px">
+                    <div class="container">
+                        <div class="section-box table-header" style="padding-top:10px">
+                            <a href="{{ indexVm.model.url }}" class="{{ indexVm.model.url ? '' : 'disable-link' }}">
+                                <h2 class="table-header-title"> {{ indexVm.name || 'All shares' }} <span class="table-header-title-subtitle" ng-if="indexVm.valueStr"> <span class="diamond-unicode"></span> {{ indexVm.valueStr }} </span> <span class="table-header-title-subtitle" ng-if="indexVm.percentStr"> <span class="diamond-unicode"></span>                                    <span class="{{ indexVm.percent >= 0 ? 'is-positive' : 'is-negative' }}">{{ indexVm.percentStr }}</span> </span>
+                                </h2>
+                            </a>
+                            <div ng-if="false" class="pull-right visible-lg" style="position:relative;transform:translate(0px,24px)">
+                                <section-selector selection="[25,50,100,200]" selection-selected="maxShownStocks" on-changed="maxShownStocksChanged(selected)"></section-selector>
+                            </div>
+                            <hr> </div>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static kurser-table" style="margin-top:15px">
+                                <thead>
+                                    <tr>
+                                        <th style="width:25px;cursor:pointer" ng-if="resp.smUp"></th>
+                                        <th style="width:150px" ng-click="stockSorter.sort('displayName')"> Share <i ng-show="stockSorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:60px" class="hidden-xs" ng-click="stockSorter.sort('ticker')">
+                                        Ticker <i ng-show="stockSorter.column==='ticker'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="stockSorter.sort('value')"> Last <i ng-show="stockSorter.column==='value'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" ng-click="stockSorter.sort('change')">
+                                        <span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-</span> <i ng-show="stockSorter.column==='change'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i>                                            </th>
+                                        <th ng-click="stockSorter.sort('percent')"> <span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-</span>&nbsp;% <i ng-show="stockSorter.column==='percent'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i>                                            </th>
+                                        <th class="hidden-xs" ng-click="stockSorter.sort('bid')"> Bid <i ng-show="stockSorter.column==='bid'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" ng-click="stockSorter.sort('ask')">
+                                        Ask <i ng-show="stockSorter.column==='ask'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" ng-click="stockSorter.sort('volume')">
+                                        Volume <i ng-show="stockSorter.column==='volume'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" ng-click="stockSorter.sort('turnover')">
+                                        Turnover <i ng-show="stockSorter.column==='turnover'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" style="max-width:30px" class="hidden-xs"
+                                            ng-click="stockSorter.sort('sector')"> Industry <i ng-show="stockSorter.method==='sector'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                        <th class="visible-lg" ng-click="stockSorter.sort('timeNum')">
+                                        Time <i ng-show="stockSorter.column==='timeNum'" class="tmg-icon tmg-icon-boomerang" ng-style="{transform: stockSorter.desc ? '' : 'rotate(180deg)'}"></i> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="vm in stocks | limitTo:listLengthMax ">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': vm.savingFavorite }" ng-style="{ color: vm.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(vm)"></i> </td>
+                                        <td class="hide-text-overflow main-col">
+                                        <a ng-href="{{vm.url}}" rel="canonical">{{vm.displayName}}</a> </td>
+                                        <td class="hidden-xs">{{vm.ticker}}</td>
+                                        <td>{{vm.valueStr}}</td>
+                                        <td class="hidden-xs" ng-class="vm.colorClass">{{vm.changeStr}}</td>
+                                        <td ng-class="vm.colorClass">{{vm.percentStr}}</td>
+                                        <td class="hidden-xs">{{vm.bidStr}}</td>
+                                        <td class="hidden-xs">{{vm.askStr}}</td>
+                                        <td class="hidden-xs">{{vm.volumeStr}}</td>
+                                        <td class="hidden-xs">{{vm.turnoverStr}}</td>
+                                        <td class="hidden-xs" uib-popover="{{ vm.industry.name }}" popover-trigger="mouseenter" popover-animation="false" popover-placement="left" popover-append-to-body="true"> <svg style="width:20px;height:20px"><g transform="translate(0, 0)scale(0.5)"><use xlink:href="{{vm.sector.tmgIcon}}" /></g></svg> </td>
+                                        <td style="max-width:20px" class="visible-lg tmg-data-tags-color">{{vm.timeStr}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-show="listLengthMax === 110 &amp;&amp; stocks.length > listLengthMax">
+                            <div class="tmg-show-more" style="margin:0"> <a style="display:block" ng-click="listLengthMax = 3000">All <i class="tmg-icon tmg-icon-boomerang" style="font-size:8px;transform:translate(0,-1px)"></i></a> </div>
+                        </div>
+                        <div style="margin-top:10px;color:#444"> <i style="font-size:12px">* not officially traded yet. Using mid price as an indicator.</i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kurser-cryptos.html">
+    <div class="bright-section shares-container" ng-class="{active: cryptosMenu}" ng-init="isTheCryptosPage = true;" style="min-height:700px" ng-style="{'padding-bottom': userSignedIn === false ? '0px' : ''}">
+        <div ng-show="!loaded" class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading bonds...</span> </div>
+        <div ng-show="loaded" class="loaded-container">
+            <div>
+                <div class="bright-section shares-list-container">
+                    <div class="container">
+                        <h2> Cryptocurrencies </h2>
+                        <hr>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static table-box kurser-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:35px;cursor:pointer" ng-if="resp.smUp"> </th>
+                                        <th ng-click="currencySorter.sort('displayName')" style="cursor:pointer"> Currency <i ng-show="currencySorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('destination')"
+                                            style="cursor:pointer;width:80px" class="hidden-xs"> Code <i ng-show="currencySorter.column==='destination'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('changeNum')"
+                                            style="cursor:pointer;width:95px" class="hidden-xs"> <span>Today&nbsp;</span> <span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-</span> $ <i ng-show="currencySorter.column==='changeNum'" class="tmg-icon tmg-icon-boomerang"
+                                                ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('changePercNum')" style="cursor:pointer;width:120px"> <span>Today&nbsp;</span> <span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-</span>&nbsp;% $ <i ng-show="currencySorter.column==='changePercNum'" class="tmg-icon tmg-icon-boomerang"
+                                                ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('value')" style="cursor:pointer;width:80px"> In $<i ng-show="currencySorter.column==='value'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"> </i> </th>
+                                        <th ng-click="currencySorter.sort('rateGBP')"
+                                            style="cursor:pointer;width:80px" class="hidden-xs"> In £<i ng-show="currencySorter.column==='rateGBP'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"> </i> </th>
+                                        <th ng-click="currencySorter.sort('lastUpdated')"
+                                            style="cursor:pointer;width:65px" class="hidden-xs"> Time <i ng-show="currencySorter.column==='lastUpdated'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs hidden-sm no-interaction"
+                                            style="cursor:default"> Description </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in currencies" ng-show="item.key!='Y15'">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': item.savingFavorite }" ng-style="{color: item.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(item)"></i> </td>
+                                        <td class="main-col">
+                                        <a ng-href="{{item.url}}" rel="canonical">{{item.displayName}}</a> </td>
+                                        <td class="hidden-xs">{{item.destination}}</td>
+                                        <td ng-class="item.colorClass" class="tmg-accessible-color-override hidden-xs"> {{ item.changeDisp }} </td>
+                                        <td ng-class="item.colorClass" class="tmg-accessible-color-override"> {{ item.changePercDisp }} </td>
+                                        <td>{{item.valueDisp}}</td>
+                                        <td class="hidden-xs">{{item.crosses.Y15.mRateDisp}}</td>
+                                        <td class="hidden-xs tmg-data-tags-color">{{item.lastUpdatedDisp}}</td>
+                                        <td class="hidden-xs tmg-content-wrap">{{item.description}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kurser-indekser.html">
+    <div class="bright-section shares-container" ng-class="{active: indicesMenu}" ng-init="isTheIndicesPage = true;" style="min-height:800px" ng-style="{'padding-bottom': userSignedIn === false ? '0px' : ''}">
+        <div class="container" style="position:relative">
+            <div style="margin-top:10px;margin-bottom:10px;max-width:900px" ng-if="editSelectedItem">
+                <analyze-selector on-changed="changed(selected)"></analyze-selector>
+            </div>
+        </div>
+        <div ng-show="!loaded" class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading indices...</span> </div>
+        <div ng-show="loaded" class="loaded-container">
+            <div>
+                <div class="bright-section shares-list-container">
+                    <div class="container">
+                        <h2> Indices </h2>
+                        <hr>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static table-box kurser-table" style="margin-top:15px">
+                                <thead>
+                                    <tr>
+                                        <th style="width:35px;cursor:pointer" ng-if="resp.smUp"></th>
+                                        <th style="min-width:250px;cursor:pointer" ng-click="indexSorter.sort('displayName')"> Index <i ng-show="indexSorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="indexSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs"
+                                            style="width:130px;cursor:pointer" ng-click="indexSorter.sort('value')"> Last <i ng-show="indexSorter.column==='value'" class="tmg-icon tmg-icon-boomerang" ng-style="indexSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:130px;cursor:pointer"
+                                            ng-click="indexSorter.sort('percent')"> Today’s change <i ng-show="indexSorter.column==='percent'" class="tmg-icon tmg-icon-boomerang" ng-style="indexSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs"
+                                            style="text-decoration:none;color:#222;cursor:default"> Description </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in indexes | filter : indexFilter">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': item.savingFavorite }" ng-style="{color: item.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(item)"></i> </td>
+                                        <td class="main-col">
+                                        <a ng-href="{{item.url}}" rel="canonical"> {{item.displayName}} <img ng-repeat="img in item.flags" class="hidden-xs" ng-src="{{img}}" style="height:15px;max-width:20px;margin-left:5px"> </a> </td>
+                                        <td class="hidden-xs">{{item.valueDisp}}</td>
+                                        <td ng-class="item.colorClass">{{item.percentStr}}</td>
+                                        <td class="hidden-xs tmg-content-wrap">{{item.desc}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kurser-ravarer.html">
+    <div class="bright-section shares-container" ng-class="{active: commoditiesMenu}" ng-init="isTheCommoditiesPage = true;" style="min-height:800px" ng-style="{'padding-bottom': userSignedIn === false ? '0px' : ''}">
+        <div class="container" style="position:relative">
+            <div style="margin-top:10px;margin-bottom:10px;max-width:900px" ng-if="editSelectedItem">
+                <analyze-selector on-changed="changed(selected)"></analyze-selector>
+            </div>
+        </div>
+        <div class="loaded-container">
+            <div>
+                <div class="bright-section shares-list-container">
+                    <div class="container">
+                        <h2> Commodities </h2>
+                        <hr>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static table-box kurser-table" style="margin-top:15px">
+                                <thead>
+                                    <tr>
+                                        <th style="width:35px;cursor:pointer" ng-if="resp.smUp"></th>
+                                        <th style="min-width:200px;cursor:pointer" ng-click="commoditySorter.sort('displayName')"> Commodity <i ng-show="commoditySorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="commoditySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:130px;cursor:pointer"
+                                            ng-click="commoditySorter.sort('value')"> Price <i ng-show="commoditySorter.column==='value'" class="tmg-icon tmg-icon-boomerang" ng-style="commoditySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:130px;cursor:pointer"
+                                            ng-click="commoditySorter.sort('percent')"> Change last day <i ng-show="commoditySorter.column==='percent'" class="tmg-icon tmg-icon-boomerang" ng-style="commoditySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in commodities">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': item.savingFavorite }" ng-style="{color: item.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(item)"></i> </td>
+                                        <td class="main-col">
+                                        <a ng-href="{{item.url}}" rel="canonical">{{item.displayName}}</a> </td>
+                                        <td>{{item.valueStr}}</td>
+                                        <td ng-class="item.colorClass">{{item.percentStr}}</td>
+                                        <td class="hidden-xs tmg-content-wrap">{{item.desc}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kurser-renter.html">
+    <div class="bright-section shares-container" ng-class="{active: bondsMenu}" ng-init="isTheBondsPage = true;" style="min-height:700px" ng-style="{'padding-bottom': userSignedIn === false ? '0px' : ''}">
+        <div class="container" style="position:relative">
+            <div style="margin-top:10px;margin-bottom:10px;max-width:900px" ng-if="editSelectedItem">
+                <analyze-selector on-changed="changed(selected)"></analyze-selector>
+            </div>
+        </div>
+        <div ng-show="!loaded" class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading bonds...</span> </div>
+        <div ng-show="loaded" class="loaded-container">
+            <div>
+                <div class="bright-section shares-list-container">
+                    <div class="container">
+                        <h2> Bonds </h2>
+                        <hr>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static table-box kurser-table" style="margin-top:15px">
+                                <thead>
+                                    <tr>
+                                        <th style="width:35px;cursor:pointer" ng-if="resp.smUp"></th>
+                                        <th style="min-width:160px;cursor:pointer" ng-click="bondSorter.sort('displayName')"> Instrument <i ng-show="bondSorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:80px;cursor:pointer;text-align:right"
+                                            ng-click="bondSorter.sort('value')"> Value <i ng-show="bondSorter.column==='value'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:80px;cursor:pointer;text-align:right"
+                                            ng-click="bondSorter.sort('change')"> +/- <i ng-show="bondSorter.column==='change'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th class="hidden-xs" style="width:80px;cursor:pointer;text-align:right"
+                                            ng-click="bondSorter.sort('yield')"> Yield <i ng-show="bondSorter.column==='yield'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:80px;cursor:pointer;text-align:right"
+                                            ng-click="bondSorter.sort('bid')" class="hidden-xs"> Bid <i ng-show="bondSorter.column==='bid'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="width:80px;cursor:pointer;text-align:right"
+                                            ng-click="bondSorter.sort('ask')" class="hidden-xs"> Ask <i ng-show="bondSorter.column==='ask'" class="tmg-icon tmg-icon-boomerang" ng-style="bondSorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th style="padding-left:15px;text-decoration:none;color:#222;cursor:default"
+                                            class="hidden-xs hidden-sm"> Description </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in interests">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': item.savingFavorite }" ng-style="{color: item.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(item)"></i> </td>
+                                        <td class="main-col">
+                                        <a ng-href="{{item.url}}" rel="canonical">{{item.displayName}}</a> </td>
+                                        <td style="text-align:right">{{item.valueDisp}}</td>
+                                        <td style="text-align:right" ng-class="item.colorClass">{{item.changeDisp}}</td>
+                                        <td style="text-align:right" class="hidden-xs">{{item.yieldDisp}}</td>
+                                        <td style="text-align:right" class="hidden-xs">{{item.bidDisp}}</td>
+                                        <td style="text-align:right" class="hidden-xs">{{item.askDisp}}</td>
+                                        <td style="padding-left:15px" class="hidden-xs hidden-sm tmg-content-wrap">{{item.desc}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="kurser-valuta.html">
+    <div class="shares-container currency-container" ng-class="{active: currenciesMenu}" ng-init="isTheCurrenciesPage = true;" style="min-height:800px;position:relative">
+        <div class="dark-section" style="background-color:#012434">
+            <div class="container" style="position:relative">
+                <h2 style="margin-bottom:10px">Currencies</h2>
+                <div class="sub-title extra-bottom-padding"> View and convert currencies available on Markets Hub </div>
+            </div>
+        </div>
+        <div class="dark-section">
+            <div class="container currencybox-container">
+                <div class="row" style="margin-bottom:0;padding-bottom:0">
+                    <div ng-repeat="item in bigThreeDict" class="col-sm-4 tmg-bootstrap-padding currencybox-entry-container">
+                        <div class="currencybox-entry">
+                            <div class="currencybox-header">
+                                <div class="currency-flag"> <img ng-src="{{item.img}}"> </div>
+                                <a href="{{ item.url }}">
+                                    <div class="currency-details"> <span class="currency-name">{{item.displayName}}</span> <br> <span class="currency-against">{{item.base}}/{{item.destination}}</span> </div>
+                                </a>
+                                <hr> </div>
+                            <div class="currencybox-status"> <span class="currency-value">{{item.valueDisp}}</span> <span class="currency-change" ng-class="item.colorClass">{{item.changePercDisp}}</span> </div>
+                            <div class="currencybox-bottom">
+                                <hr>
+                                <div ng-repeat="cross in item.crosses track by $index" ng-if="cross.to != 'GBP' &amp;&amp; cross.to !== item.destination" class="row">
+                                    <div class="col-xs-6 currency-against"> <span>{{cross.to}} against {{cross.from}}</span> </div>
+                                    <div class="col-xs-6 currency-perc"> <span ng-class="cross.colorClass">{{cross.changePercDisp}}</span> </div>
+                                    <div class="col-xs-12">
+                                        <hr> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loaded-container">
+            <div>
+                <div class="dark-section">
+                    <div class="exchange-container">
+                        <div class="container">
+                            <h2>Currency converter</h2> <span> Select currency and amount to see the conversion based on the latest exchange rate. </span>
+                            <div class="row" style="margin-top:50px;margin-bottom:50px">
+                                <div class="col-sm-5">
+                                    <div class="exchange-form-label">From</div> <input type="tel" class="form-control exchange-form-input ng-pristine ng-valid ng-empty ng-touched" ng-model="convert.from.amount" ng-keyup="convert.updateFrom()"> <select name="fromCurrencyPick" class="form-control exchange-form-select ng-pristine ng-valid ng-empty ng-touched"
+                                        ng-options="currency as currency.displayName for currency in currencies track by currency.destination" ng-model="convert.from.currency" ng-change="convert.updateFrom()" ng-selected="convert.from.currency.destination == currency.destination">  </select>                                    </div>
+                                <div class="col-sm-2 currency-converter-spacer"> <svg><g style="fill:#FFF;height:20px;width:40px" transform="translate(10,17) scale(1.5) rotate(270)"><use xlink:href="#tmg-arrow-long" /></g><g style="fill:#FFF;height:20px;width:40px" transform="translate(25,15) scale(1.5) rotate(90)"><use xlink:href="#tmg-arrow-long" /></g></svg>                                    </div>
+                                <div class="col-sm-5">
+                                    <div class="exchange-form-label">To</div> <input type="tel" class="form-control exchange-form-input ng-pristine ng-valid ng-touched ng-not-empty" ng-model="convert.to.amount" ng-keyup="convert.updateTo()"> <select name="toCurrencyPick" class="form-control exchange-form-select ng-pristine ng-valid ng-empty ng-touched"
+                                        ng-options="currency as currency.displayName for currency in currencies track by currency.destination" ng-model="convert.to.currency" ng-change="convert.updateTo()" ng-selected="convert.to.currency.destination == currency.destination">  </select>                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="currencies-list-and-chart">
+                        <div class="container">
+                            <div class="row" style="margin-bottom:0;padding-bottom:0">
+                                <div class="col-md-6 hidden-xs hidden-sm">
+                                    <div class="section-box">
+                                        <h3> Currency <svg><g><use xlink:href="#tmg-info-circle" /></g></svg> </h3>
+                                        <div class="section-box-main">
+                                            <table class="table-box table-box-right table-box-fixed-row-height">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:140px"></th>
+                                                        <th style="width:50px">For &pound;1</th>
+                                                        <th style="width:50px" class="hidden-xs">For $1</th>
+                                                        <th style="width:50px" class="hidden-xs">For &euro;1</th>
+                                                        <th style="width:50px"><span class="tmg-green-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-&nbsp;</span>%</th>
+                                                        <th style="width:50px">Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="currency in shortlistDict">
+                                                        <td> <a href="{{ currency.url }}"> {{ currency.displayName }} </a> </td>
+                                                        <td>{{currency.crosses.default.mRateDisp}}</td>
+                                                        <td class="hidden-xs">{{currency.crosses.Y15.mRateDisp}}</td>
+                                                        <td class="hidden-xs">{{currency.crosses.Y9.mRateDisp}}</td>
+                                                        <td> <span ng-class="currency.colorClass">{{ currency.changePercDisp }}</span> </td>
+                                                        <td>{{currency.lastUpdated | dayMinuteTime }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="position:relative;padding-bottom:15px">
+                                        <world-chart context="worldChartContext"></world-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="currency-map-container">
+                        <div class="container">
+                            <h2>Currency map</h2> <span class="tmg-text-austin-deck-roman"> The map updates approx. every five minutes with change from yesterdays rate. </span>
+                            <div class="currency-map-svg" ng-if="currencyMapContext">
+                                <currency-map context="currencyMapContext"></currency-map>
+                            </div>
+                            <div class="currency-map-keys visible-lg">
+                                <div class="section-box">
+                                    <h3> Keys </h3>
+                                    <hr>
+                                    <div class="section-box-main">
+                                        <div class="key-map-color-box">
+                                            <div class="map-key-color inv-green-background"> </div>
+                                            <div class="map-key-desc"> Countries where GBP exchange <br>rate have increased </div>
+                                        </div>
+                                        <div class="key-map-color-box">
+                                            <div class="map-key-color inv-red-background"> </div>
+                                            <div class="map-key-desc"> Countries where GBP exchange <br>rate have decreased </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bright-section shares-list-container">
+                    <div class="container">
+                        <div class="section-box table-header">
+                            <h2> All currencies </h2>
+                            <hr> </div>
+                        <div class="section-box kurser-table-container">
+                            <table class="table-static kurser-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:35px;cursor:pointer"> </th>
+                                        <th ng-click="currencySorter.sort('displayName')" style="cursor:pointer"> Currency <i ng-show="currencySorter.column==='displayName'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('destination')"
+                                            style="cursor:pointer;width:50px" class="hidden-xs"> Code <i ng-show="currencySorter.column==='destination'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th ng-click="currencySorter.sort('changePercNum')"
+                                            style="cursor:pointer"> GBP rate change <i ng-show="currencySorter.column==='changePercNum'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                        <th
+                                            ng-click="currencySorter.sort('mRateDefault')" style="width:70px"> For &pound;1<i ng-show="currencySorter.column==='mRateDefault'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"> </i> </th>
+                                            <th ng-click="currencySorter.sort('mRateUSD')"
+                                                style="width:70px" class="hidden-xs"> For $1<i ng-show="currencySorter.column==='mRateUSD'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"> </i> </th>
+                                            <th ng-click="currencySorter.sort('mRateEUR')"
+                                                style="width:70px" class="hidden-xs"> For &euro;1<i ng-show="currencySorter.column==='mRateEUR'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"> </i> </th>
+                                            <th ng-click="currencySorter.sort('lastUpdated')"
+                                                style="cursor:pointer;width:60px" class="hidden-xs"> Time <i ng-show="currencySorter.column==='lastUpdated'" class="tmg-icon tmg-icon-boomerang" ng-style="currencySorter.desc ? {transform: 'rotate(0deg)'} : {transform: 'rotate(180deg)'}"></i> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in currencies | filter:searchFilter" ng-show="item.destination!='GBP'">
+                                        <td ng-if="resp.smUp"> <i class="tmg-icon tmg-icon-star" style="cursor:pointer" ng-class="{ 'tmg-spin': item.savingFavorite }" ng-style="{color: item.isFavorite ? '#3266CA' : '#666' }" ng-click="toggleFavorite(item)"></i> </td>
+                                        <td class="main-col">
+                                        <a ng-href="{{item.url}}" rel="canonical">{{item.displayName}}</a> </td>
+                                        <td class="hidden-xs">{{item.destination}}</td>
+                                        <td ng-class="item.colorClass" class="tmg-accessible-color-override"> {{ item.changePercDisp }} </td>
+                                        <td>{{item.crosses.default.mRateDisp}}</td>
+                                        <td class="hidden-xs">{{item.crosses.Y15.mRateDisp}}</td>
+                                        <td class="hidden-xs">{{item.crosses.Y9.mRateDisp}}</td>
+                                        <td class="hidden-xs tmg-data-tags-color">{{item.lastUpdatedDisp}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="userSignedIn === false" class="tmg-regwall" id="tmg-regwall">
+            <div class="tmg-regwall-container">
+                <div class="tmg-regwall-main">
+                    <h1>Register to access<br> Markets Hub</h1>
+                    <p>It's free and easy to create an account, then you can:</p>
+                    <ul>
+                        <li>
+                            <div> <svg style="width:36px;height:36px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M50.09,0,50,.09,49.91,0,0,50l4.44,4.45.14.15L49.91,100l.09-.09.09.09L95.42,54.59l.14-.15L100,50ZM50,93.83,6.25,50,50,6.33,93.75,50Z" /><path fill="#FFF" d="M50,18.83,18.73,50.07,50,81.34,81.27,50.07Zm0,56.25-25-25,25-25,25,25Z" /><polygon fill="#FFF" points="40.63 50.08 47.66 43.05 50 40.7 52.34 43.05 59.38 50.08 50 59.45 40.63 50.08" /></svg>                                </div> Read the latest news of what is happening in the markets and around the world </li>
+                        <li>
+                            <div style="margin-top:5px"> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon fill="#FFF" points="75 50 71.88 43.75 53.13 43.75 75 0 46.88 0 25 50 28.13 56.25 46.88 56.25 25 100 75 50" /></svg>                                </div> Get streaming access to shares on the London Stock Exchange, currencies, commodities, interests, global indices, and more </li>
+                        <li>
+                            <div> <svg style="width:33px;height:33px;margin-top:2px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#FFF" d="M61,13.63a22.61,22.61,0,0,0-41.88.95,22.49,22.49,0,0,0,4.11,23.9l2.85-2.88a18.55,18.55,0,0,1-3.24-19.53,18.61,18.61,0,0,1,34.52-.79,18.4,18.4,0,0,1-2.94,20.43l2.86,2.82A22.54,22.54,0,0,0,61,13.63Z" /><path fill="#FFF" d="M63.88,53.13l-6.29,9.38,0-12.5H51.34l-6.25,9.37V25H35.79V84.38H29.52V65.64L20.24,75l-.09,25H82.59V59.38H76.36l-6.21,6.25V53.15H63.89Z" /></svg>                                </div> Use intuitive tools for exploring, analyzing, and tracking interesting instruments </li>
+                    </ul> <a ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a>
+                    <div class="no-thanks"> <a href="Overview/">No thanks,</a> take me to the Markets Hub front page. </div>
+                </div>
+                <div class="tmg-regwall-sub"> Already registered? <a ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="overview.html">
+    <div style="position:relative">
+        <ticker-popup></ticker-popup>
+        <div class="dark-section" style="padding-bottom:0" id="overview-world-container">
+            <div style="position:relative;overflow:hidden" id="overview-globe-row">
+                <div class="container" style="padding-top:0;position:relative">
+                    <div class="row" style="margin-bottom:0;padding-bottom:0">
+                        <div class="col-md-6 col-sm-offset-2 col-sm-8 col-md-offset-0">
+                            <div id="overview-globe-container">
+                                <globe context="globeContext"></globe>
+                                <div class="hidden-xs" style="margin-top:-15px"></div>
+                                <div class="visible-xs" style="margin-top:-5px"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 hidden-xs hidden-sm">
+                            <div style="position:relative;margin-bottom:15px;margin-top:0;margin-left:50px" id="world-chart-container" class="paper-shadow-top-z-3">
+                                <world-chart context="worldChartContext"></world-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="overview-tickers">
+                    <div style="position:relative">
+                        <div class="visible-xs overview-ticker-line"></div>
+                        <div class="container overview-ticker-container tmg-bootstrap-padding">
+                            <div class="overview-ticker" ng-repeat="ticker in subTickers" ng-class="{'hidden-xs hidden-sm': $index > 5}">
+                                <div ng-show="!$first" class="ticker-spacer"> </div>
+                                <div class="ticker-name" ticker-popup-manager="ticker.key">
+                                    <a ng-href="{{ ticker.model.url }}" ng-click="clickTicker('sub')" style="display:inline-block;position:relative;width:100%"> <span ng-class="{'brent-name-fix': ticker.name === 'BRENT SPOT'}"> <span class="regular-name">{{ ticker.name }}</span> <span class="custom-name">BRENT OIL</span> </span> <svg class="ticker-svg-arrow"><g ng-if="ticker.down" class="inv-red-fill hidden-xs" transform="translate(3,13)scale(1.1)"><use xlink:href="#tmg-arrow-down" /></g><g ng-if="ticker.up" class="inv-green-fill hidden-xs" transform="translate(3,13)scale(1.1)"><use xlink:href="#tmg-arrow-up" /></g><g ng-if="ticker.down" class="inv-red-fill visible-xs" transform="translate(3,11) scale(0.9)"><use xlink:href="#tmg-arrow-down" /></g><g ng-if="ticker.up" class="inv-green-fill visible-xs" transform="translate(3,11) scale(0.9)"><use xlink:href="#tmg-arrow-up" /></g></svg>
+                                        <div class="ticker-price"> <span class="ticker-num"> <span ng-show="ticker.currency">{{ticker.currency}}</span>{{ ticker.valueStr }} </span>&nbsp;&nbsp; <span ng-class="ticker.colorClass">{{ ticker.percentStr }}</span> </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bright-section">
+            <div class="tmg-ad-container visible-xs" style="margin:0 auto;padding:15px 0">
+                <div class="tmg-ad-header">Advertisement</div>
+                <div id="ad_container_5" class="tmg-ad-box-small"></div>
+            </div>
+            <div ng-if="!isGameFinished">
+                <div class="container ff-wrapper">
+                    <a class="ff-link-container" href="https://www.telegraph.co.uk/markets-hub/fantasy-fund-manager/?icid=editorial_markethubs_onsite-asset_particle_fff-particle-unit">
+                        <div class="ff-embed--container">
+                            <div class="ff-embed--left">
+                                <div class="ff-embed--logo"> <img src="https://www.telegraph.co.uk/content/dam/markets-hub/logo.svg"> </div>
+                                <div class="ff-embed--title">Fantasy Fund Manager</div>
+                                <div class="ff-embed--title--secondary">Enter our stock-picking game – with £15,000 of prizes up for grabs</div>
+                                <div class="ff-embed--text">Think you could teach Britain’s top traders a thing or two? Test your investment knowledge against them and our financial journalists for your chance to win our £1,000 weekly prizes – and the £7,000 jackpot</div>
+                                <div class="ff-embed--url">Enter at <span>telegraph.co.uk/fantasy-fund</span></div>
+                            </div>
+                            <div class="ff-embed--right"> </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="container" id="overview-news" style="min-height:500px;padding-bottom:10px;padding-top:20px">
+                <div class="row">
+                    <div class="col-md-7 tmg-custom-news-split-left tmg-bootstrap-padding">
+                        <div id="dndirekte-linked-container" style="display:none"> </div>
+                        <div class="section-box section-box-xs-full" style="padding:0;margin:0;background:none">
+                            <h3 style="padding-bottom:8px;padding-top:3px">Latest from The Telegraph</h3>
+                            <div ng-show="!direkte.loaded" class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading articles</span> </div>
+                            <div class="tmg-feed-loaded-container" ng-show="direkte.loaded">
+                                <div class="tmg-feed-selected-tag" ng-if="direkte.selectedTag">
+                                    <div class="tmg-feed-tag-title"> {{ direkte.selectedTag }} <i ng-click="direkte.clearTag()" class="tmg-icon tmg-icon-x pull-right"></i> </div>
+                                </div>
+                                <div id="dndirekte-master-container" class="inv-overflow-hidden"> </div>
+                                <div ng-if="direkte.empty" style="padding:15px;font-size:19px;color:#CCC" class="text-center"> No hits </div>
+                                <div class="goto-box goto-box-lg">
+                                    <div ng-show="direkte.showingMore">
+                                        <div class="row">
+                                            <div class="col-xs-6 tmg-show-more" style="margin:0;padding-right:0"> <a ng-click="direkte.showLess()">Collapse list <i class="tmg-icon tmg-icon-boomerang" style="font-size:8px;transform:rotate(180deg)"></i></a> </div>
+                                            <div class="col-xs-6 tmg-show-more" style="margin:0;padding-left:0;border-left:1px solid #CCC">
+                                            <a ng-show="direkte.hasMore" ng-click="direkte.showMore()">Show more news <i class="tmg-icon tmg-icon-boomerang" style="transform:translate(0,-1px)"></i></a> </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="!direkte.showingMore &amp;&amp; !direkte.empty" class="tmg-show-more" style="margin-top:15px"> <a ng-click="direkte.showMore()">Show more news <i class="tmg-icon tmg-icon-boomerang" style="transform:translate(0,-1px)"></i></a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="visible-xs" style="margin-top:15px"></div>
+                    <div class="col-md-5 tmg-custom-news-split-right tmg-bootstrap-padding" id="overview-portfolio">
+                        <div id="overview-news-right">
+                            <div class="section-box favourites large" style="margin-top:0">
+                                <h3>Favourites</h3>
+                                <hr>
+                                <div ng-if="favorites.length">
+                                    <a ng-click="favorites.editing=!favorites.editing" class="favourite-edit-toggle"> <span ng-style="favorites.editing ? {right:'19px'} : {right:'18px'}">{{favorites.editing ? 'Close' : 'Edit'}}</span> </a>
+                                    <table class="table-box table-box-right" ng-show="!favorites.editing">
+                                        <thead>
+                                            <tr>
+                                                <th>Favourite</th>
+                                                <th style="width:70px">Traded</th>
+                                                <th style="width:60px">Last</th>
+                                                <th style="width:60px"><span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-accessible-color">-</span>&nbsp;%</th>
+                                                <th style="width:60px">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="q in favorites" ticker-popup-manager="q.key">
+                                                <td> <a ng-href="{{ q.model.url }}">{{ q.model.displayName }}</a> </td>
+                                                <td>{{ q.turnoverStr }}</td>
+                                                <td>{{ q.valueStr }}</td>
+                                                <td> <span ng-class="q.colorClass">{{ q.percentStr }}</span> </td>
+                                                <td class="tmg-data-tags-color"> <span>{{ q.timeStr }}</span> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div ng-if="favorites.editing" ng-controller="editFavoritesCtrl">
+                                        <div style="position:relative">
+                                            <div class="row">
+                                                <div class="col-lg-12" style="position:relative;margin-bottom:15px;z-index:99;margin-top:-15px">
+                                                    <model-search added="searched(model)"></model-search>
+                                                </div>
+                                            </div>
+                                            <table class="table-box table-box-right" id="fav-edit-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Favourite</th>
+                                                        <th>Options</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="q in favorites">
+                                                        <td><a ng-href="{{ q.url }}">{{ q.model.displayName }}</a></td>
+                                                        <td> <i class="tmg-icon tmg-icon-boomerang favorite-up" style="font-size:10px;transform:translate(0,-1px)rotate(180deg)" ng-click="moveupFav(q)" ng-show="!$first"></i> <i class="tmg-icon tmg-icon-boomerang favorite-down"
+                                                                style="font-size:10px;transform:translate(0,-1px)" ng-click="movedownFav(q)" ng-show="!$last"></i> <i class="tmg-icon tmg-icon-x favorite-delete" ng-click="deleteFav(q)"></i> </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="container-fluid edit-btn-container" style="padding-bottom:10px">
+                                                <div class="row" style="margin-top:15px">
+                                                    <div class="col-xs-6 text-center" style="padding:0 10px"> <a class="btn btn-success btn-block" ng-click="editFavorites('save')"><i class="fa fa-fw" ng-class="{ 'fa-cog fa-spin': savingFavorite, 'fa-save': !savingFavorite }"></i>Save</a> </div>
+                                                    <div class="col-xs-6 text-center"
+                                                        style="padding:0 10px"> <a class="btn btn-default btn-block" ng-click="editFavorites('cancel')">Cancel</a> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="padding:10px;font-size:17px;border-top:1px solid #f2f2f2" ng-if="!userName">
+                                        <div class="row">
+                                            <div class="col-sm-2 text-center hidden-xs">
+                                                <div style="color:#3266ca;font-size:40px;padding-top:10px;padding-right:0"> <i class="tmg-icon tmg-icon-star"></i> </div>
+                                            </div>
+                                            <div class="col-sm-10" style="padding:10px;padding-left:0;padding-top:10px">
+                                                <p>Register to get all your favourites on all your devices.</p>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:10px">
+                                            <div class="col-sm-6"> <a class="btn btn-default btn-block" ng-href="{{regUrls.login}}" target="_blank">Log in</a> </div>
+                                            <div class="col-sm-6">
+                                                <div class="visible-xs" style="margin-top:5px"></div> <a class="btn btn-default btn-block" ng-href="{{regUrls.register}}" target="_blank" class="get-started">Get started</a> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="!favorites.length &amp;&amp; !loadingFavorites" style="padding-top:5px">
+                                    <div class="row">
+                                        <div class="col-sm-2 text-center hidden-xs">
+                                            <div style="color:#3266ca;font-size:40px;padding-top:10px;padding-right:0"> <i class="tmg-icon tmg-icon-star"></i> </div>
+                                        </div>
+                                        <div class="col-sm-10 tmg-title" style="font-weight:500;color:#555;font-size:21px;padding-top:10px"> Add shares, commodities, currencies and other assets here!
+                                            <div style="color:#888;font-size:14px;margin-top:0" class="tmg-sans"> Click "add to favourites" on shares you want quick access to. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="loadingFavorites" class="tmg-loading-container"> <svg class="tmg-loading-svg"><g transform="translate(1,1)scale(0.18)"><use xlink:href="#tmg-cog" /></g></svg> <span class="tmg-loading-text">Loading favourites</span> </div>
+                            </div>
+                            <div ng-controller="subRecapCtrl">
+                                <div class="section-box latest-notifications large" ng-show="subRecaps" ng-init="subRecapLimit = 1">
+                                    <h3> Your Notifications <span class="goto-box"> <a href="alert/"> See all <i class="tmg-icon tmg-icon-boomerang" style="transform:translate(0,-2px)rotate(-90deg)"></i> </a> </span> </h3>
+                                    <hr>
+                                    <div class="technical-signal-entry" ng-repeat="subRecap in subRecaps">
+                                        <hr class="technical-white-space" style="margin-bottom:5px;margin-top:5px">
+                                        <div class="technical-signal-content" style="padding-bottom:0">
+                                            <div class="tmg-time-and-desc" style="padding-bottom:0">
+                                                <div class="tmg-time"> {{ subRecap.time | dateOrYearAndHourMinuteSecondAmPm }} </div>
+                                                <div class="tmg-spacer"> </div> <span> <a ng-href="{{subRecap.model.url}}" ng-click="clickTicker('signal')" style="width:auto;padding-left:5px" ticker-popup-manager="subRecap.key"> {{ subRecap.model.displayName }} </a> </span>
+                                                <div
+                                                    class="tmg-spacer"> </div> <span> &nbsp;{{ subRecap.sub.name }} </span> </div>
+                                    </div>
+                                </div>
+                                <div ng-show="subRecaps.none" style="font-size:14px">
+                                    <div style="padding-bottom:10px">Watch the market 24 hours a day!</div> <a href="alert/">Create your own customised alerts <i class="tmg-icon tmg-icon-boomerang" style="font-size:8px;transform:translate(0,-2px)rotate(-90deg)"></i> </a> </div>
+                                <div
+                                    ng-show="!subRecaps.length &amp;&amp; !subRecaps.none" style="font-size:14px"> No notifications has been triggered yet </div>
+                        </div>
+                    </div>
+                    <div class="section-box ftse-container large">
+                        <h3> Indices <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Indices" popover="{{ tooltips.indices }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            <span class="goto-box"> <a href="assets/shares/"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </span> </h3>
+                        <hr style="margin-top:0">
+                        <div class="name-price"> <a href="{{selectedListTicker.url}}"> {{selectedListTicker.name}} <span ng-class="selectedListTicker.colorClass" style="font-weight:300;font-family:'Austin News Deck Medium'" class="pull-right"> {{ selectedListTicker.percentStr }} </span> </a>                            </div>
+                        <div style="position:relative">
+                            <div class="tmg-nodata-caption" ng-show="tdayChartContext.nodata === true">No intraday data available</div>
+                            <tday-ticker-chart context="tdayChartContext"></tday-ticker-chart>
+                        </div>
+                        <table class="table-box table-box-right table-box-fixed-row-height">
+                            <tbody>
+                                <tr ng-repeat="stock in listTickers" ng-class="{ selected: stock === selectedListTicker}">
+                                    <td ng-mouseenter="selectListTicker(stock)"> <a href="{{ stock.model.url }}">{{ stock.name }}</a> </td>
+                                    <td class="tmg-black-medium">{{stock.valueStr }}</td>
+                                    <td style="width:100px" ng-class="stock.colorClass">{{ stock.percentStr }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-box large hidden-xs">
+                        <h3> Risers <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Risers" popover="{{ tooltips.vinnere }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            <span class="goto-box"> <a href="explore/Winners/"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </span> </h3>
+                        <hr>
+                        <table class="table-box table-box-right table-box-fixed-row-height">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width:70px">Traded</th>
+                                    <th style="width:100px">Last</th>
+                                    <th style="width:100px"><span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-accessible-color">-&nbsp;</span>%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="stock in winners" ticker-popup-manager="stock.key">
+                                    <td> <a href="{{ stock.model.url }}" ng-click="clickTicker('vinner')">{{ stock.model.displayName }}</a> </td>
+                                    <td class="tmg-black-medium">{{stock.turnoverStr }}</td>
+                                    <td class="tmg-black-medium">{{stock.valueStr }}</td>
+                                    <td class="tmg-green-accessible-color"><span ng-show="stock.model">{{ stock.percentStr }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-box large hidden-xs">
+                        <h3> Fallers <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Fallers" popover="{{ tooltips.tapere }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            <span class="goto-box"> <a href="explore/Losers/"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </span> </h3>
+                        <hr>
+                        <table class="table-box table-box-right table-box-fixed-row-height">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width:70px">Traded</th>
+                                    <th style="width:100px">Last</th>
+                                    <th style="width:100px"><span class="tmg-green-accessible-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-accessible-color">-&nbsp;</span>%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="stock in losers" ticker-popup-manager="stock.key">
+                                    <td> <a href="{{ stock.model.url }}" ng-click="clickTicker('taper')">{{ stock.model.displayName }}</a> </td>
+                                    <td class="tmg-black-medium">{{stock.turnoverStr }}</td>
+                                    <td class="tmg-black-medium">{{stock.valueStr }}</td>
+                                    <td class="tmg-red-accessible-color"><span ng-show="stock.model">{{ stock.percentStr }}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="section-box hidden-xs" ng-show="signals &amp;&amp; signals.length">
+                        <div class="section-box-main section-box-small" id="last-technical">
+                            <div class="title"> <span class="tmg-linked-text-color">Latest technical signal:</span>
+                                <a ng-href="{{signals[0].url}}" ticker-popup-manager="signals[0].quantKey"> <span class="tmg-black-medium tmg-sans-bold">{{signals[0].model.displayName}}</span> </a>
+                            </div>
+                            <div class="quick-link" ng-click="quickNav('teknisk')"> <i class="tmg-icon tmg-icon-boomerang tmg-linked-text-color"></i> </div>
+                        </div>
+                    </div>
+                    <div class="section-box hidden-xs" ng-show="calendarTeaser" style="margin-top:20px">
+                        <div class="section-box-main section-box-small">
+                            <div class="title"> <span class="tmg-linked-text-color">Calendar:</span> <span class="tmg-black-medium">{{calendarTeaser.num}}&nbsp;{{calendarTeaser.text}}</span> </div>
+                            <div class="quick-link" ng-click="quickNav('kalender')"> <i class="tmg-icon tmg-icon-boomerang tmg-linked-text-color"></i> </div>
+                        </div>
+                    </div>
+                    <div style="font-size:16px;margin-top:10px" class="visible-xs">
+                        <div id="last-technical" ng-click="quickNav('teknisk')" ng-show="lastSignal" class="overview-shortcut"> <a>Latest technical signal</a>: <span class="tmg-black-medium tmg-sans-bold" style="height:16px;transform:translate(0px,1px);display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:155px" ticker-popup-manager="lastSignal.quantKey">{{ lastSignal.model.displayName }}</span>
+                            <a class="pull-right"> <i class="tmg-icon tmg-icon-boomerang" style="font-size:10px"></i> </a>
+                        </div>
+                        <div class="overview-shortcut" ng-click="quickNav('kalender')" ng-if="calendarTeaser"> <a>Calendar:</a>
+                            <div class="tmg-black-medium" style="height:16px;transform:translate(0px,1px);display:inline-block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:245px">{{calendarTeaser.num}}&nbsp;{{ calendarTeaser.text }}</div>
+                            <a class="pull-right"> <i class="tmg-icon tmg-icon-boomerang" style="font-size:10px"></i> </a>
+                        </div>
+                    </div>
+                    <div class="tmg-ad-container hidden-xs">
+                        <div class="tmg-ad-header">Advertisement</div>
+                        <div id="ad_container_2" class="tmg-ad-box-large"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-bottom:10px"></div>
+    </div>
+    <div class="dark-section" id="inv-overview-news-bottom" style="padding-bottom:20px">
+        <div class="section-selector-peak">
+            <div class="container ncpulse-selections-double">
+                <section-selector selection="stockGroups" selection-selected="stockGroup" xs-collapse="true" on-changed="stockGroupsChanged(selected)"></section-selector>
+                <section-selector selection="['Year','Month' , 'Week', 'Day']" selection-selected="stockResolution" right="true" xs-collapse="right" on-changed="stockResolutionChanged(selected)"></section-selector>
+            </div>
+        </div>
+        <div class="container overview-stocks-container" id="overview-stocks">
+            <div class="section-box" style="margin-top:20px" ng-show="!turnover[0].model &amp;&amp; loaded">
+                <div class="section-box-no-data"> <svg style="display:inline-block;height:25px;width:25px;vertical-align:bottom"><g transform="translate(5,5)scale(1.1)"><use xlink:href="#tmg-notification-small" /></g></svg> Overview of the LSE when the exchange opens. <br> <span class="hidden-xs"> Select a different time period to the right. </span>                    </div>
+            </div>
+            <div style="height:20px"></div>
+            <div class="row" style="padding-left:5px;padding-right:5px">
+                <div class="col-lg-4 tmg-bootstrap-padding">
+                    <div class="section-box" style="padding-bottom:19px;min-height:318px">
+                        <h3> Most Traded <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Most Traded" popover="{{ tooltips.mestoms }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            </h3>
+                        <table class="table-box table-box-right table-box-fixed-row-height">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th style="width:70px">Traded</th>
+                                    <th style="width:70px">Last</th>
+                                    <th style="width:60px"><span class="tmg-green-color">+</span>&nbsp;/&nbsp;<span class="tmg-red-color">-&nbsp;</span>%</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="stock in turnover" ticker-popup-manager="stock.key">
+                                    <td> <a href="{{ stock.model.url }}" ng-click="clickTicker('omsetning')">{{ stock.model.displayName }}</a> </td>
+                                    <td>{{stock.turnoverStr }}</td>
+                                    <td>{{stock.valueStr }}</td>
+                                    <td> <span ng-show="stock.model" ng-class="stock.colorClass"> {{ stock.percentStr }} </span> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="goto-box"> <a href="explore/MostTraded"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg);color:#64aaed"></i> </a> </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 tmg-bootstrap-padding hidden-tiny-xs" ng-show="upDownContext.hasData">
+                    <div style="padding-top:20px" class="hidden-lg"></div>
+                    <div class="section-box" style="position:relative;min-height:318px">
+                        <h3> Shares up and down <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Shares up and down" popover="{{ tooltips.updown }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            </h3>
+                        <hr>
+                        <up-down-counts context="upDownContext"></up-down-counts>
+                        <div class="section-box-note" style="text-align:right;bottom:20px;right:25px">{{ upDownContext.unchanged }} unchanged</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4 tmg-bootstrap-padding" ng-show="hideHeavyweights === false">
+                    <div style="padding-top:20px" class="hidden-lg"></div>
+                    <div class="section-box" style="min-height:318px">
+                        <h3> Heavyweights <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Heavyweights" popover="{{ tooltips.tungvekter }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            </h3>
+                        <hr>
+                        <div class="tmg-sans">
+                            <div class="tungvekter" ng-repeat="t in tungvektere" ng-class="t.colorClass" ng-show="t.colorClass !== 'pending'" ticker-popup-manager="t.key">
+                                <a ng-href="{{t.model.url}}" ng-click="clickTicker('tung')">
+                                    <div class="ticker"> {{ t.model.ticker }} </div>
+                                    <div class="percent">{{ t.percentStr }}</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="industries &amp;&amp; !hideIndustries">
+                <div style="margin-top:20px"></div>
+                <div class="section-box dark-section-sector-tickers">
+                    <h3> Industries <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Sectors" popover="{{ tooltips.sectors }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                        </h3>
+                    <hr>
+                    <div style="clear:both;position:relative" class="text-center tmg-sans">
+                        <a ng-repeat="s in industriesStart" style="text-decoration:none" ng-href="{{s.url}}" class="sector-block" ng-class="{'industry-border': $index &lt; 9}" ticker-popup-manager="s.key">
+                            <div class="sector-name">{{ s.name }}</div>
+                            <div style="position:relative" ng-class="s.colorClass">
+                                <div class="sector-icon-box"> <svg style="width:70px;height:70px"><g transform="translate(20, 0)scale(1)"><use xlink:href="{{s.icon}}" /></g></svg> </div> <span> &nbsp;{{ s.percent }}%&nbsp; </span>
+                                <div class="bar-container">
+                                    <div class="inv-green-background up-bar" ng-style="{ width: (100 * s.up / s.count) + '%'}"></div>
+                                    <div class="inv-red-background down-bar" ng-style="{ width: (100 * s.down / s.count) + '%'}"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <hr>
+                    <div style="clear:both;position:relative" class="text-center tmg-sans">
+                        <a ng-repeat="s in industriesEnd" style="text-decoration:none" ng-href="{{s.url}}" class="sector-block industry-border" ticker-popup-manager="s.key">
+                            <div class="sector-name">{{ s.name }}</div>
+                            <div style="position:relative" ng-class="s.colorClass">
+                                <div class="sector-icon-box"> <svg style="width:70px;height:70px"><g transform="translate(20, 0)scale(1)"><use xlink:href="{{s.icon}}" /></g></svg> </div> <span> &nbsp;{{ s.percent }}%&nbsp; </span>
+                                <div class="bar-container">
+                                    <div class="inv-green-background up-bar" ng-style="{ width: (100 * s.up / s.count) + '%'}"></div>
+                                    <div class="inv-red-background down-bar" ng-style="{ width: (100 * s.down / s.count) + '%'}"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:20px" class="hidden-xs"></div>
+            <div class="section-box hidden-xs">
+                <h3> Industry risers and fallers <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Sector Risers and Fallers" popover="{{ tooltips.sektorvinner }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                    </h3>
+                <hr>
+                <div style="position:relative">
+                    <div style="position:relative">
+                        <sector-highlights class="sector-highlights" context="industryHighlightsContext"></sector-highlights>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bright-section">
+        <div class="container technical-container" id="overview-technical">
+            <div class="section-title">
+                <h2> Technical Overview <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Technical Overview" popover="{{ tooltips.teknisk }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                    </h2>
+                <hr> </div>
+            <div class="row" style="padding-top:5px">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-sm-6 tmg-bootstrap-padding">
+                            <div class="section-box">
+                                <h3> Most Overbought <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Most Overbought" popover="{{ tooltips.overkjopt }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                                    <span class="technical-table-description">RSI</span> </h3>
+                                <div class="section-box-main">
+                                    <table class="table-box table-box-right table-box-fixed-row-height">
+                                        <tbody>
+                                            <tr ng-repeat="stock in rsiTop | limitTo:7" ticker-popup-manager="stock.key" ng-class="{'hidden-xs hidden-sm': $index > 5}">
+                                                <td class="main-col"> <a href="{{ stock.model.url }}" ng-click="clickTicker('rsi_ok')">{{ stock.model.displayName }}</a> </td>
+                                                <td class="tmg-red-accessible-color width-col">{{ stock.valueStr }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="goto-box"> <a href="explore/MostOverbought"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visible-xs tmg-mobile-white-spacer"></div>
+                        <div class="col-sm-6 tmg-bootstrap-padding">
+                            <div class="section-box">
+                                <h3> Most Oversold <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Most Oversold" popover="{{ tooltips.oversolgt }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                                    <span class="technical-table-description">RSI</span> </h3>
+                                <div class="section-box-main">
+                                    <table class="table-box table-box-right table-box-fixed-row-height">
+                                        <tbody>
+                                            <tr ng-repeat="stock in rsiBottom | limitTo:7" ticker-popup-manager="stock.key" ng-class="{'hidden-xs hidden-sm': $index > 5}">
+                                                <td class="main-col"> <a href="{{ stock.model.url }}" ng-click="clickTicker('rsi_os')">{{ stock.model.displayName }}</a> </td>
+                                                <td class="tmg-green-accessible-color width-col">{{ stock.valueStr }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="goto-box"> <a href="explore/MostOversold"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visible-xs tmg-mobile-white-spacer"></div>
+                        <div class="col-sm-6 tmg-bootstrap-padding">
+                            <div class="visible-lg" style="margin-top:25px"></div>
+                            <div class="section-box">
+                                <h3> Trend <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Trend" popover="{{ tooltips.trendende }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                                    <span class="technical-table-description">ADX</span> </h3>
+                                <div class="section-box-main">
+                                    <table class="table-box table-box-right table-box-fixed-row-height">
+                                        <tbody>
+                                            <tr ng-repeat="stock in adxTop | limitTo:7" ticker-popup-manager="stock.key">
+                                                <td class="main-col" ng-style="{'height': stock.url ? '' : '30px'}"> <a href="{{ stock.model.url }}" ng-click="clickTicker('adx')">{{ stock.model.displayName }}</a> </td>
+                                                <td class="width-col"> <span ng-class="stock.colorClass"> {{ stock.valueStr }} </span> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="goto-box"> <a href="explore/Trend"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visible-xs tmg-mobile-white-spacer"></div>
+                        <div class="col-sm-6 tmg-bootstrap-padding">
+                            <div class="visible-lg" style="margin-top:25px"></div>
+                            <div class="section-box">
+                                <h3> High Turnover <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="High Volume" popover="{{ tooltips.hoyoms }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                                    <span class="technical-table-description">X AVERAGE</span> </h3>
+                                <div class="section-box-main">
+                                    <table class="table-box table-box-right table-box-fixed-row-height">
+                                        <tbody>
+                                            <tr ng-repeat="stock in highVolume | limitTo:7" ticker-popup-manager="stock.key">
+                                                <td class="main-col"> <a href="{{ stock.model.url }}" ng-click="clickTicker('oms')">{{ stock.model.displayName }}</a> </td>
+                                                <td class="width-col"><span ng-show="stock.model">{{ stock.valueStr }}x</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="goto-box"> <a href="explore/HighTurnover"> View full list <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visible-xs tmg-mobile-white-spacer"></div>
+                <div class="col-md-6 tmg-bootstrap-padding">
+                    <div class="section-box">
+                        <h3> Latest Technical Signals <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Latest Technical Signals" popover="{{ tooltips.sistetek }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                            <span class="goto-box"> <a href="signals/"> Technical signals <i class="tmg-icon tmg-icon-boomerang" style="transform:rotate(-90deg)"></i> </a> </span> </h3>
+                        <div class="technical-signals">
+                            <table ng-show="signals.length">
+                                <tbody>
+                                    <tr ng-repeat="s in signals | limitTo:5" class="technical-signal-entry">
+                                        <td>
+                                            <div ng-show="$index > 0" class="technical-white-space"> </div>
+                                            <div class="technical-signal-content">
+                                                <div class="tmg-time-and-desc">
+                                                    <div class="tmg-time"> {{ s.date | dateOrYearAndHourMinuteSecondAmPm }} </div>
+                                                    <div class="tmg-spacer"> </div> <span> <a ng-href="{{s.url}}" ng-click="clickTicker('signal')" style="width:auto;padding-left:5px" ticker-popup-manager="s.quantKey"> {{ s.model.displayName }} </a> </span> </div>
+                                                <div class="technical-signal-title tmg-title">
+                                                {{ s.title }} </div>
+                                                <div class="technical-signal-desc"> {{ s.desc }} </div>
+                                            </div>
+                                            <div class="technical-signal-icon">
+                                                <div class="icon-spacer"> </div> <span ng-show="s.direction==='pos'"> <svg style="height:30px;width:30px;display:inline-block"><g class="tmg-green-accessible-fill" transform="translate(3,5)scale(1.7)"><use xlink:href="#tmg-arrow-up" /></g></svg> </span>                                                <span ng-show="s.direction==='neg'"> <svg style="height:30px;width:30px;display:inline-block"><g class="tmg-red-accessible-fill" transform="translate(3,5)scale(1.7)"><use xlink:href="#tmg-arrow-down" /></g></svg> </span>                                                <span ng-show="!s.direction"> <svg style="height:30px;width:30px;display:inline-block"><g class="tmg-neutral-fill" transform="translate(7,3)scale(1.7)"><use xlink:href="#tmg-circle" /></g></svg> </span>                                                </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="section-box-no-data" ng-if="!signals.length"> <svg style="display:inline-block;height:25px;width:25px;vertical-align:bottom"><g class="tmg-neutral-fill" transform="translate(5,5)scale(1.1)"><use xlink:href="#tmg-notification-small" /></g></svg> Signals will appear here
+                                when they occur during the day. </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bright-section">
+        <div class="container" id="overview-calendar">
+            <hr>
+            <div class="row">
+                <div style="position:relative" class="col-lg-6 tmg-bootstrap-padding overview-calendar-container">
+                    <h2 style="font-size:30px;line-height:32px"> Economic Calendar <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Financial Calendar" popover="{{ tooltips.finanskal }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                        </h2>
+                    <div class="section-box large" style="padding-top:10px;margin-top:10px">
+                        <div class="section-box-main" ng-init="calendarLimit = 9">
+                            <table ng-show="economicCalendar.length" class="table-static" style="margin-top:10px">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width:70px">Date</th>
+                                        <th>Event</th>
+                                        <th class="hidden-xs">Forecast</th>
+                                        <th class="hidden-xs" style="text-align:right">Country / Region</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in economicCalendar | limitTo:calendarLimit">
+                                        <td>
+                                            <div class="tmg-data-tags-color"> {{ item.date }} </div>
+                                        </td>
+                                        <td class="main-col"> {{ item.eventType }} </td>
+                                        <td class="hidden-xs"> {{ item.forecast }} </td>
+                                        <td class="hidden-xs main-col" style="text-align:right"> {{item.country}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="section-box-no-data" ng-if="!economicCalendar.length"> <svg style="display:inline-block;height:25px;width:25px;vertical-align:bottom"><g class="tmg-neutral-fill" transform="translate(5,5)scale(1.1)"><use xlink:href="#tmg-notification-small" /></g></svg> There are no economic events
+                                available. </div>
+                            <div class="goto-box" ng-show="calendarLimit === 9 &amp;&amp; economicCalendar.length > 9"> <a ng-click="calendarLimit = economicCalendar.length">Show all events this month <i class="tmg-icon tmg-icon-boomerang" style="transform:translate(0,-1px)"></i></a> </div>
+                            <div class="goto-box" ng-show="calendarLimit !== 9 &amp;&amp; economicCalendar.length">
+                            <a ng-click="calendarLimit = 9">Show less <i class="tmg-icon tmg-icon-boomerang" style="font-size:8px;transform:rotate(180deg)"></i></a> </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="other-container">
+                        <div class="section-title">
+                            <h2 style="font-size:30px;line-height:32px"> Currencies & Commodities <svg ng-click="clickInfo()" popover-trigger="mouseenter" popover-placement="right" popover-animation="true" popover-append-to-body="true" popover-title="Currencies &amp; Commodities" popover="{{ tooltips.currencyCommodities }}"><g><use xlink:href="#tmg-info-circle" /></g></svg>                                </h2>
+                            <div class="row">
+                                <div class="tmg-bootstrap-padding" style="padding-top:0">
+                                    <div class="section-box">
+                                        <div class="section-box-no-data" ng-if="!currencyData.length &amp;&amp; !otherCommodities.length" style="background-color:#f8fbfc"> <svg style="display:inline-block;height:25px;width:25px;vertical-align:bottom"><g class="tmg-neutral-fill" transform="translate(5,5)scale(1.1)"><use xlink:href="#tmg-notification-small" /></g></svg> There are problems
+                                            loading this data. Please try again later. </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 currency-container tmg-bootstrap-padding" ng-show="currencyData.length">
+                                    <div class="row tmg-container-on-white-background">
+                                        <div class="currency-box col-xs-3 col-sm-6" ng-repeat="currencyEntry in currencyData">
+                                            <div class="currency-entry" ng-class="currencyEntry.change >= 0 ? 'pos' : 'neg'">
+                                                <a href="{{ currencyEntry.url }}">
+                                                    <div class="currency-entry-inner">
+                                                        <div class="currency-to-from"> {{currencyEntry.name}} </div>
+                                                        <div class="currency-value"> {{currencyEntry.rate}} </div>
+                                                        <div class="currency-change"> {{currencyEntry.change}}% </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="currency-vertical-spacer"></div>
+                                            <div class="currency-horizontal-spacer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 tmg-bootstrap-padding">
+                                    <div ng-show="largestTwoCommodities['C9'] &amp;&amp; largestTwoCommodities['C7']" class="commodity-container tmg-container-on-white-background"> <a href="{{ largestTwoCommodities['C9'].url }}"> <div class="commodity-box" ticker-popup-manager="largestTwoCommodities['C9'].quantKey" ng-class="largestTwoCommodities['C9'].changePc > 0 ? 'tmg-green-accessible-color' : largestTwoCommodities['C9'].changePc &lt; 0 ? 'tmg-red-accessible-color' : 'tmg-gray-accessible-color'"> <div class="commodity-name"> Gold <svg ng-show="largestTwoCommodities['C9'].changePc > 0 &amp;&amp; largestTwoCommodities['C9'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-green-accessible-fill" transform="translate(3,11)"><use xlink:href="#tmg-arrow-up" /></g></svg> <svg ng-show="largestTwoCommodities['C9'].changePc &lt; 0 &amp;&amp; largestTwoCommodities['C9'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-red-accessible-fill" transform="translate(3,11)"><use xlink:href="#tmg-arrow-down" /></g></svg> <svg ng-show="largestTwoCommodities['C9'].changePc == 0 &amp;&amp; largestTwoCommodities['C9'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-gray-accessible-fill" transform="translate(5,11)"><use xlink:href="#tmg-circle" /></g></svg> </div> <div class="commodity-price"> ${{largestTwoCommodities['C9'].usd}} </div> <div class="commodity-sub"> <div class="commodity-sub-gbp">£{{largestTwoCommodities['C9'].gbp}}</div> <div class="commodity-sub-change" ng-show="largestTwoCommodities['C9'].change !== '' &amp;&amp; largestTwoCommodities['C9'].changePc !== ''"> {{largestTwoCommodities['C9'].change}} <span>({{largestTwoCommodities['C9'].changePc}}%)</span> </div> </div> </div> </a>
+                                        <div class="commodity-spacer"></div> <a href="{{ largestTwoCommodities['C7'].url }}"> <div class="commodity-box" style="padding-bottom:2px" ticker-popup-manager="largestTwoCommodities['C7'].quantKey" ng-class="largestTwoCommodities['C7'].changePc > 0 ? 'tmg-green-accessible-color' : largestTwoCommodities['C7'].changePc &lt; 0 ? 'tmg-red-accessible-color' : 'tmg-gray-accessible-color'"> <div class="commodity-name"> Brent Spot <svg ng-show="largestTwoCommodities['C7'].changePc > 0 &amp;&amp; largestTwoCommodities['C7'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-green-accessible-fill" transform="translate(3,11)"><use xlink:href="#tmg-arrow-up" /></g></svg> <svg ng-show="largestTwoCommodities['C7'].changePc &lt; 0 &amp;&amp; largestTwoCommodities['C7'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-red-accessible-fill" transform="translate(3,11)"><use xlink:href="#tmg-arrow-down" /></g></svg> <svg ng-show="largestTwoCommodities['C7'].changePc == 0 &amp;&amp; largestTwoCommodities['C7'].changePc !== ''" style="height:22px;width:20px;display:inline-block"><g class="tmg-gray-accessible-fill" transform="translate(5,11)"><use xlink:href="#tmg-circle" /></g></svg> </div> <div class="commodity-price"> ${{largestTwoCommodities['C7'].usd}} </div> <div class="commodity-sub"> <div class="commodity-sub-gbp">£{{largestTwoCommodities['C7'].gbp}}</div> <div class="commodity-sub-change" ng-show="largestTwoCommodities['C7'].change !== '' &amp;&amp; largestTwoCommodities['C7'].changePc !== ''"> {{largestTwoCommodities['C7'].change}} <span>({{largestTwoCommodities['C7'].changePc}}%)</span> </div> </div> </div> </a>                                        </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px" ng-show="otherCommodities.length">
+                                <div class="col-xs-12 tmg-bootstrap-padding">
+                                    <div class="section-box">
+                                        <h3> Other Commodities </h3>
+                                        <div class="section-box-main" style="margin-top:16px">
+                                            <table class="table-box table-box-right table-box-fixed-row-height">
+                                                <tbody>
+                                                    <tr ng-repeat="commodity in otherCommodities" ticker-popup-manager="commodity.key" ng-class="{'hidden-xs hidden-sm': $index > 6}">
+                                                        <td class="main-col"> <a href="{{ commodity.url }}" ng-click="clickTicker('rsi_ok')">{{ commodity.displayName }}</a> </td>
+                                                        <td class="hidden-xs">{{commodity.currency}}</td>
+                                                        <td>{{ commodity.rate }}</td>
+                                                        <td ng-class="commodity.colorClass">{{commodity.change}}</td>
+                                                        <td ng-class="commodity.colorClass">{{commodity.changePc}}%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</script>
+<script type="text/ng-template" id="subscriptions-query-arg.html">
+    <div ng-switch="a.templateKey" style="display:inline-block"> <span ng-switch-when="price"> <input ng-model="a.value" type="number" class="watch-shares"> </span> <span ng-switch-when="largenum"> <input ng-model="a.value" type="number" class="watch-shares"> </span>
+        <div ng-switch-when="daysperiod">
+            <div class="btn-group"> <label class="btn btn-default" ng-model="a.value" uib-btn-radio="20">20</label> <label class="btn btn-default" ng-model="a.value" uib-btn-radio="50">50</label> <label class="btn btn-default" ng-model="a.value" uib-btn-radio="100">100</label>                <label class="btn btn-default" ng-model="a.value" uib-btn-radio="200">200</label> </div>
+        </div> <span ng-switch-when="integer100"> <input ng-model="a.value" type="number" class="watch-shares"> </span> <span ng-switch-when="percent"> <input ng-model="a.value" type="number" class="watch-shares"> </span> <span ng-switch-when="percentup"> <input ng-model="a.value" type="number" class="watch-shares"> </span>        <span ng-switch-when="growing"> <input ng-model="a.value" type="number" class="watch-shares"> </span>
+        <div ng-switch-when="overunder">
+            <div class="btn-group"> <label class="btn btn-default" ng-model="a.value" uib-btn-radio="true">Above</label> <label class="btn btn-default" ng-model="a.value" uib-btn-radio="false">Below</label> </div>
+        </div>
+    </div>
+</script>
+<script src="js.js/165130577-break"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.9/d3.min.js"></script>
+<script>
+    window.d3 || document.write(unescape("%3Cscript src='data/cdnfallback/d3.min.js' type='text/javascript'%3E%3C/script%3E"))
+</script>
+<script>
+    if (!investAgg.local && window._satellite) {
+        _satellite.pageBottom();
+    }
+</script>
+</body>
+
+</html>

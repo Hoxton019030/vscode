@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
-    <title>jQuery</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/jquery.js"></script>
+	<meta charset="UTF-8">
+	<title>jQuery</title>
+	<link rel="stylesheet" href="./css/style.css">
+	<script src="./js/jquery.js"></script>
     <style>
-        textarea {
+        textarea{
             width: 200px;
             height: 200px;
         }
     </style>
-    <script>
-        $(function() {
-            $('textarea').scroll(function() {
+	<script>
+		$(function () {	
+            $('textarea').scroll(function(){
+                // 1
+                // $('#feedback').text(`You have scrolled.`)
+
+                // 2 scrollTop: 內部元素超出外部容器的高度 (px)
+                // let scroll_top = $(this).scrollTop();
+                // $('#feedback').text(`You have scrolled, and are at position ${scroll_top}.`)
+
+                // 3 加上 CSS 之後
                 let scroll_top = $(this).scrollTop();
-                $('#feedback').text(`You have scrolled, and are at position ${scroll_top}.`);
+                $('#feedback').text(`You have scrolled, and are at position ${scroll_top}.`)
             });
         })
-    </script>
+	</script>
 </head>
 
 <body>

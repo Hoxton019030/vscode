@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery.js"></script>
+    <style>
+        * {
+            margin: 0px;
+        }
+        
+        .area {
+            display: block;
+            opacity: 0;
+        }
+    </style>
+    <script>
+        let showHeight = 200;
+        $(function() {
+            $(window).on('scroll resize', function() {
+                $('.area').each(function() {
+                    let setThis = $(this);
+                    let offsetTop = setThis.offset().top
+                    if ($(window).scrollTop() >= (offsetTop + showHeight) - $(window).height()) {
+                        setThis.stop().animate({
+                            opacity: 1,
+                        }, 500)
+                    } else {
+                        setThis.stop().animate({
+                            opacity: 0,
+                        }, 500)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div class="area">
+        <p>1</p>
+    </div>
+    <div class="area">
+        <p>2</p>
+    </div>
+    <div class="area">
+        <p>3</p>
+    </div>
+    <div class="area">
+        <p>4</p>
+    </div>
+    <div class="area">
+        <p>5</p>
+    </div>
+</body>
+
+</html>
